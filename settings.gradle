@@ -1,1 +1,1 @@
-include ':lcatalog_mod'
+include ':lcatalog_mod', ':aRBaseLib'

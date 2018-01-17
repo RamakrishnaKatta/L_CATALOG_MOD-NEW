@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/L_CATALOG_MOD-NEW.iml" filepath="$PROJECT_DIR$/L_CATALOG_MOD-NEW.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/L_CATALOG_MOD-NEW.iml" filepath="$PROJECT_DIR$/.idea/L_CATALOG_MOD-NEW.iml" />
+      <module fileurl="file://C:\Android\WorkShop\ARToolKit5-bin-5.3.2-Android\AndroidStudioProjects\L_CATALOG_MOD-NEW\L_CATALOG_MOD-NEW.iml" filepath="C:\Android\WorkShop\ARToolKit5-bin-5.3.2-Android\AndroidStudioProjects\L_CATALOG_MOD-NEW\L_CATALOG_MOD-NEW.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aRBaseLib/aRBaseLib.iml" filepath="$PROJECT_DIR$/aRBaseLib/aRBaseLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/lcatalog_mod/lcatalog_mod.iml" filepath="$PROJECT_DIR$/lcatalog_mod/lcatalog_mod.iml" />
     </modules>
   </component>

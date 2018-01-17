@@ -8,14 +8,7 @@ local.properties
 .gradle/
 
 # User-specific configurations
-.idea/libraries/
-.idea/inspectionProfiles/
-.idea/copyright/profiles_settings.xml
-.idea/workspace.xml
-.idea/compiler.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/gradle.xml
+.idea/
 *.iml
-app/libs/
+.gitignore
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcome_layout_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/margin_150"
+        android:layout_height="@dimen/margin_150"
+        android:padding="@dimen/margin_10"
+        android:src="@drawable/companyicon" />
+
+    <TextView
+        android:id="@+id/txt_welcome_11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_10">
+
+        <TextView
+            android:id="@+id/txt_welcome_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/powered_by"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_welcome_13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_name"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_22"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_welcome_14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tag_line"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_xlarge" />
+
+    </LinearLayout>
+
+</LinearLayout>
