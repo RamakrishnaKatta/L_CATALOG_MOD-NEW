@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">L CATALOG</string>
     <string name="dummy_description">Dummy Description</string>
     <string name="powered_symbol_immersionslabs">&#8471; Immersion Software Labs. </string>
@@ -42,6 +43,34 @@
     <string name="discount_title">Discount :   </string>
     <string name="original_price_title">ORIGINAL PRICE:</string>
     <string name="discount_off"> OFF</string>
+
+    /* Product page Activity */
+    <string name="product_favourite">Favourite</string>
+    <string name="product_share">share</string>
+    <string name="product_augment">Augment</string>
+    <string name="product_3d_text">360&#xb0; Object Rotation</string>
+    <string name="product_download">Download</string>
+    <string name="product_budget_list">Budget List</string>
+    <string name="note_download">NOTE : Please click the download button before you click the 360&#176; view, as it is already been disabled until you download</string>
+
+    <string name="dummy_address">Chandra Layout, Bangalore- 560072</string>
+    <string name="vendor_address_title">ADDRESS :</string>
+    <string name="vendor_name">CMR</string>
+    <string name="vendor_title">NAME :</string>
+    <string name="providedby_vendor">PROVIDED BY :</string>
+    <string name="dimension_value">in</string>
+    <string name="height_value">20</string>
+    <string name="dimen_height">HEIGHT :</string>
+    <string name="length_value">25</string>
+    <string name="dimen_length">LENGTH :</string>
+    <string name="width_value">30</string>
+    <string name="dimen_width">WIDTH :</string>
+    <string name="product_rating_reviews"><![CDATA[50 ratings & 15 reviews]]></string>
+    <string name="product_rating">4.3 *</string>
+    <string name="product_desc">DESCRIPTION :</string>
+    <string name="product_desc_name">Description of the product will be displayed here and also the related products</string>
+    <string name="product_title">TITLE :</string>
+    <string name="product_title_name">please display the text here............</string>
 
 
 </resources>
