@@ -16,4 +16,32 @@
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">START</string>
+
+    <string name="catalog">Catalog</string>
+    <string name="augment">Augment</string>
+    <string name="text_catalog_desc">
+        Catalog is the ECommerce Service Provider, which includes functionalities like
+        Favourites, Share, 360 deg View of the article and the Augment using Pattern.</string>
+    <string name="text_aument_desc">
+        Augment is a camera application that lets the user watch the article augmented onto the real world
+        with the help of a pattern, these patterns can be downloaded from \n
+        http://portal.immersionslabs.com/
+
+    </string>
+
+    /* Catalog Adapters */
+    <string name="catalog_title">My Name </string>
+    <string name="catalog_description">My description.</string>
+    <string name="original_price">1000</string>
+    <string name="discount_percentage">20</string>
+    <string name="discount_price">800</string>
+    <string name="price_Tag">/-</string>
+    <string name="Rs">\u20B9</string>
+    <string name="percentage_symbol">%</string>
+    <string name="discount_price_title">AFTER DISCOUNT PRICE:</string>
+    <string name="discount_title">Discount :   </string>
+    <string name="original_price_title">ORIGINAL PRICE:</string>
+    <string name="discount_off"> OFF</string>
+
+
 </resources>
