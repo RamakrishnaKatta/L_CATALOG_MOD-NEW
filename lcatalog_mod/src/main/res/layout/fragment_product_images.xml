@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/complete_transparent"
-    tools:context="com.immersionslabs.lcatalog_mod.Fragments.Fragment_ProductImages">
+    tools:context="com.immersionslabs.lcatalogModule.Fragments.Fragment_ProductImages">
 
     <LinearLayout
         android:layout_width="match_parent"
