@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     private static final int MY_PERMISSIONS_REQUEST = 10;
-    Button click, Augment;
+    Button click, Augment, about_us, faq;
     boolean success = true;
 
     @Override
@@ -55,6 +55,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ARNativeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        about_us = findViewById(R.id.about_us);
+        about_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        faq = findViewById(R.id.faq);
+        faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, faqActivity.class);
                 startActivity(intent);
             }
         });

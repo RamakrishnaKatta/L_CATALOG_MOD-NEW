@@ -1,6 +1,7 @@
 <resources>
 
-    <string name="app_name">L CATALOG</string>
+    <string name="app_name">L CATALOG MODULE</string>
+    <string name="app_title">L CATALOG</string>
     <string name="dummy_description">Dummy Description</string>
     <string name="powered_symbol_immersionslabs">&#8471; Immersion Software Labs. </string>
     <string name="powered_by">Powered by</string>
@@ -71,6 +72,81 @@
     <string name="product_desc_name">Description of the product will be displayed here and also the related products</string>
     <string name="product_title">TITLE :</string>
     <string name="product_title_name">please display the text here............</string>
+    <string name="about_us">About Us</string>
+    <string name="text_aboutus_desc">Here you will get the comple details about LCatalog and Immersion Software labs Pvt Ltd</string>
+    <string name="text_faq_desc">The most frequently asked questions about LCatalog will be found here</string>
+    <string name="faq">FAQ</string>
 
+
+    <string name="contact_us">Contact Us :</string>
+
+    <string name="what_is_l_catalog">What is L-CATALOG ?</string>
+    <string name="Catalogue">
+        The goal of this product is to provide the opportunity to all the furniture vendors
+        to deliver the customers the feel of having the furniture right in front of them
+        without bringing the furniture home. This could bring down the availability cost at
+        the store, manufacturing cost of the larger units drastically increases the
+        customer-vendor interaction in a much sophisticated way. Along with all these, think
+        about the situation where the user takes the furniture home and feels the article doesn’t
+        fit as he felt at the showroom and the customer thinks of returning the product,
+        L-Catalogue will eradicate this problem and the huge transportation cost that
+        is involved in this process."
+    </string>
+
+    <string name="product_objectives">Product Objectives ?</string>
+    <string name="objectives">
+        This product helps you in the advertisement portal as in when the product is sent for
+        advertising, the article will be advertised/displayed over the newspaper or on a local
+        magazine or on a digital media, the vendor/manufacturer has the freedom to provide the
+        pattern wherever possible, which helps users/customers to try the product the moment
+        they see the product on the advertisement portal.\n\n
+
+        This android app will have the capability of augmenting the furniture into the real world as in
+        when the user/customer places the pattern at the right place as per the instructions. This
+        product also lets the users/customers to reach out to the vendor/manufacturer instantly
+        using a feedback form for each article provided in the catalogue if he/she needs a customized
+        furniture. The vendor will be able to choose this option while product development depending
+        upon his/her selling forte is static designer products or customized.
+    </string>
+
+    <string name="definition_and_description">Definition and Description :</string>
+    <string name="Definition">
+        The L – Catalog is an Augmented reality (AR) catalogue which helps the furniture
+        manufacturers/vendors to deliver the user/customer the furniture portability in the form of a
+        pattern printed on a paper. Each manufacturer/vendor will be having an android application of
+        his own in the Google playstore, which lets the user/ customer when installed this app on
+        his/her android phone to scan the pattern provided by the manufacturer/vendor sticking it on
+        the walls as per the instructions provided behind the pattern.\n\n
+
+        For example, the instructions behind says 2ft above the surface/floor where you exactly
+        want the furniture (if it is 4ft tall) to place inside your house. This process lets the
+        user/customer to get the feel of the furniture in real world, without placing the furniture at the
+        required place physically.
+    </string>
+
+    <string name="product_overview">Product Overview :</string>
+    <string name="data">
+       L – Catalogue is an android application that constitute of \n
+            <br /> &#187; More than 100 3D furniture models which had multiple fabrics \n
+            <br /> &#187; Each 3D furniture model is bound with a unique pattern.\n
+            <br /> &#187; Each pattern will be provided with a set of instructions like at what height the pattern should be pasted on the wall from the surface.\n
+            <br /> &#187; A camera screen that can recognize these patterns and augment into the real world
+            <br /> &#187; This screen can recognize multiple patterns at a time i.e., it can augment all 3D models on to the real world .\n
+            <br /> &#187; These 3D objects are intractable as in \n
+            <br /> &#8226; Single Click displays the accurate dimensions of the object.\n
+            <br /> &#8226; Double click lets the user choose the fabrics, if exist.\n
+            <br /> &#8226; Long press opens the feedback message opens right below the object. \n
+            <br /> &#187; The feedback screen lets the user to send a personal message to the vendor/ manufacturer if he/she needs a customization to the existing furniture object.\n
+            <br /> &#187; Once submitted, the message will be tagged with the object ID as well as the User contact
+        details, in case provided (One means is mandatory).\n
+            <br /> &#187;  Once the user scans the articles, the user will be able to take a screenshot of the screen which
+        lets the user to share the image between multiple apps which is a native feature. The
+        tricky part is to take a screen shot as if the furniture exists in the real. There
+        will be a Gallery Button in app  which shows the list of screenshots that were taken earlier using the L – Catalog app. \n
+    </string>
+    <string name="faq_activity">F A Q</string>
+    <string name="aboutus_activity">About Us</string>
+    <string name="VendorProfile_activity">Vendor Profile</string>
+    <string name="catalog_activity">CATALOG</string>
 
 </resources>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:showIn="@layout/activity_splash_screen">
 
     <LinearLayout
         android:id="@+id/splash_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -37,6 +40,7 @@
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             android:visibility="invisible" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
