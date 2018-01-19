@@ -10,8 +10,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,88 +18,149 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/margin_40">
 
-            <Button
-                android:id="@+id/catalog"
-                android:layout_width="@dimen/margin_200"
-                android:layout_height="@dimen/margin_200"
-                android:layout_gravity="center"
-                android:background="@drawable/round_button"
-                android:text="@string/catalog"
-                android:textSize="32sp"
-                android:textStyle="bold" />
-
             <TextView
-                android:id="@+id/text_catalog_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_10"
-                android:text="@string/text_catalog_desc"
+                android:text="FEATURE LIST"
                 android:textAlignment="center"
-                android:textSize="@dimen/text_tab_small"
-                android:textStyle="italic" />
-
-            <Button
-                android:id="@+id/augment"
-                android:layout_width="@dimen/margin_200"
-                android:layout_height="@dimen/margin_200"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_60"
-                android:background="@drawable/round_button"
-                android:text="@string/augment"
-                android:textSize="32sp"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_tab_xxxlarge"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_augment_desc"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_5"
-                android:text="@string/text_aument_desc"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_tab_small"
-                android:textStyle="italic" />
+                android:layout_marginTop="@dimen/margin_40"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/margin_40"
+                android:paddingStart="@dimen/margin_40">
 
-            <Button
-                android:id="@+id/about_us"
-                android:layout_width="@dimen/margin_200"
-                android:layout_height="@dimen/margin_200"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_60"
-                android:background="@drawable/round_button"
-                android:text="@string/about_us"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/catalog"
+                    android:layout_width="@dimen/margin_200"
+                    android:layout_height="@dimen/margin_200"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_button"
+                    android:text="@string/catalog"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_aboutus_desc"
+                <TextView
+                    android:id="@+id/text_catalog_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10"
+                    android:paddingEnd="@dimen/margin_0"
+                    android:paddingStart="@dimen/margin_40"
+                    android:text="@string/text_catalog_desc"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/text_tab_small"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_10"
-                android:text="@string/text_aboutus_desc"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_tab_small"
-                android:textStyle="italic" />
+                android:layout_marginTop="@dimen/margin_40"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/margin_40"
+                android:paddingStart="@dimen/margin_40">
 
-            <Button
-                android:id="@+id/faq"
-                android:layout_width="@dimen/margin_200"
-                android:layout_height="@dimen/margin_200"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_60"
-                android:background="@drawable/round_button"
-                android:text="@string/faq"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/augment"
+                    android:layout_width="@dimen/margin_200"
+                    android:layout_height="@dimen/margin_200"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_button"
+                    android:text="@string/augment"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_faq_desc"
+                <TextView
+                    android:id="@+id/text_augment_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:padding="@dimen/margin_10"
+                    android:paddingStart="@dimen/margin_40"
+                    android:text="@string/text_aument_desc"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/text_tab_small"
+                    android:textStyle="italic" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_10"
-                android:text="@string/text_faq_desc"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_tab_small"
-                android:textStyle="italic" />
+                android:layout_marginTop="@dimen/margin_40"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/margin_40"
+                android:paddingStart="@dimen/margin_40">
+
+                <Button
+                    android:id="@+id/about_us"
+                    android:layout_width="@dimen/margin_200"
+                    android:layout_height="@dimen/margin_200"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_button"
+                    android:text="@string/about_us"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_aboutus_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10"
+                    android:paddingEnd="@dimen/margin_0"
+                    android:paddingStart="@dimen/margin_40"
+                    android:text="@string/text_aboutus_desc"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/text_tab_small"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_40"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/margin_40"
+                android:paddingStart="@dimen/margin_40">
+
+                <Button
+                    android:id="@+id/faq"
+                    android:layout_width="@dimen/margin_200"
+                    android:layout_height="@dimen/margin_200"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_button"
+                    android:text="@string/faq"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_faq_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10"
+                    android:paddingEnd="@dimen/margin_0"
+                    android:paddingStart="@dimen/margin_40"
+                    android:text="@string/text_faq_desc"
+                    android:textAlignment="textStart"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
