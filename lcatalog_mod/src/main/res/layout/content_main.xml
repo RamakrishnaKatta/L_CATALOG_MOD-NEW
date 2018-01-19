@@ -131,6 +131,7 @@
                 android:layout_marginTop="@dimen/margin_20"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_20"
                 android:paddingEnd="@dimen/margin_20"
                 android:paddingStart="@dimen/margin_20">
 
@@ -150,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_5"
                     android:paddingStart="@dimen/margin_20"
+
                     android:text="@string/text_faq_desc"
                     android:textAlignment="textStart"
                     android:textStyle="italic" />
