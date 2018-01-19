@@ -148,5 +148,8 @@
     <string name="aboutus_activity">About Us</string>
     <string name="VendorProfile_activity">Vendor Profile</string>
     <string name="catalog_activity">CATALOG</string>
+    <string name="company_icon">Company Icon</string>
+    <string name="menu_augment">Augment</string>
+    <string name="socialmedia">socialmedia</string>
 
 </resources>
