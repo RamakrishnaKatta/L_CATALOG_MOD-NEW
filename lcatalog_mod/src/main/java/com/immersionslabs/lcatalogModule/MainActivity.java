@@ -12,12 +12,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.immersionslabs.lcatalogModule.Utils.PrefManager;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +82,114 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Get the notifications MenuItem and its LayerDrawable (layer-list)
+
+        // MenuItem item = menu.findItem(R.id.action_notifications);
+        // NotificationCountSetClass.setAddToCart(MainActivity.this, item, notificationCount);
+
+        // force the ActionBar to relayout its MenuItems. onCreateOptionsMenu(Menu) will be called again.
+
+        invalidateOptionsMenu();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will automatically handle clicks on the
+        // Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_notifications) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_Dark_Dialog);
+            builder.setTitle("Watch the welcome Slider, If you missed it");
+            builder.setMessage("To see the welcome slider again, either you can go to Settings -> apps -> welcome slider -> clear data or Press OK ");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // We normally won't show the welcome slider again in real app but this is for testing
+                    PrefManager prefManager = new PrefManager(getApplicationContext());
+
+                    // make first time launch TRUE
+                    prefManager.SetWelcomeActivityScreenLaunch(true);
+
+                    startActivity(new Intent(MainActivity.this, OnBoardingActivity.class));
+                    finish();
+                }
+            });
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+
+            return true;
+
+        } else if (id == R.id.action_replay_info) {
+
+            boolean delete_models = false;
+            boolean delete_patterns = false;
+            boolean delete_data = false;
+
+            File dir_models = new File(Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/cache/Data/models");
+            File dir_patterns = new File(Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/cache/Data/patterns");
+            File dir_data = new File(Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/cache/Data");
+
+            if (dir_models.isDirectory()) {
+                String[] children_models = dir_models.list();
+
+                Log.e(TAG, "" + Arrays.toString(children_models));
+
+                for (int i = 0; i < children_models.length; i++) {
+                    delete_models = new File(dir_models, children_models[i]).delete();
+                }
+                Log.e(TAG, "Files inside Models Folder deleted : " + delete_models);
+            }
+
+            if (dir_patterns.isDirectory()) {
+                String[] children_patterns = dir_patterns.list();
+
+                Log.e(TAG, "" + Arrays.toString(children_patterns));
+
+                for (int i = 0; i < children_patterns.length; i++) {
+                    delete_patterns = new File(dir_patterns, children_patterns[i]).delete();
+                }
+                Log.e(TAG, "Files inside Patterns Folder deleted : " + delete_patterns);
+            }
+
+            if (dir_data.isDirectory()) {
+                String[] children_data = dir_data.list();
+
+                Log.e(TAG, "" + Arrays.toString(children_data));
+
+                for (int i = 0; i < children_data.length; i++) {
+                    delete_data = new File(dir_data, children_data[i]).delete();
+                }
+                Log.e(TAG, "Files inside Data Folder deleted : " + delete_data);
+            }
+
+            if (delete_models || delete_patterns || delete_data) {
+                Toast.makeText(getBaseContext(), "Debugging: Cache Files Removed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), "Debugging: Cache doesn't exist", Toast.LENGTH_SHORT).show();
+            }
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void CreateFolderStructure() {
         String root_Path = Environment.getExternalStorageDirectory().toString() + "//L_CATALOG_MOD";

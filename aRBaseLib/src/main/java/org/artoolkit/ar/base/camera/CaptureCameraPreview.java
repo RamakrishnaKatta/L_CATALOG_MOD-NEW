@@ -227,37 +227,37 @@ public class CaptureCameraPreview extends SurfaceView implements SurfaceHolder.C
         parameters.setPreviewSize(Integer.parseInt(dims[0]), Integer.parseInt(dims[1]));
         parameters.setPreviewFrameRate(30);
 
-        if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            Log.e(TAG, "CameraModes(): Focus Continuous Picture Applied ");
-        }
+//        if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+//            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+//            Log.e(TAG, "CameraModes(): Focus Continuous Picture Applied ");
+//        }
 
 //        if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
 //            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 //            Log.e(TAG, "CameraModes(): Focus Auto Applied ");
 //        }
 
-        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_HDR)) {
-            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_HDR);
-            Log.e(TAG, "CameraModes(): Scene HDR Applied ");
-        }
-
-        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_STEADYPHOTO)) {
-            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_STEADYPHOTO);
-            Log.e(TAG, "CameraModes(): Scene STEADY PHOTO Applied ");
-        }
-
-        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_AUTO)) {
-            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-            Log.e(TAG, "CameraModes(): Scene Auto Mode Applied ");
-        }
-
-        if (parameters.getSupportedWhiteBalance().contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
-            parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-            Log.e(TAG, "CameraModes(): White Balance Auto Applied ");
-        }
-
-        parameters.setExposureCompensation(0);
+//        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_HDR)) {
+//            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_HDR);
+//            Log.e(TAG, "CameraModes(): Scene HDR Applied ");
+//        }
+//
+//        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_STEADYPHOTO)) {
+//            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_STEADYPHOTO);
+//            Log.e(TAG, "CameraModes(): Scene STEADY PHOTO Applied ");
+//        }
+//
+//        if (parameters.getSupportedSceneModes().contains(Camera.Parameters.SCENE_MODE_AUTO)) {
+//            parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+//            Log.e(TAG, "CameraModes(): Scene Auto Mode Applied ");
+//        }
+//
+//        if (parameters.getSupportedWhiteBalance().contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
+//            parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+//            Log.e(TAG, "CameraModes(): White Balance Auto Applied ");
+//        }
+//
+//        parameters.setExposureCompensation(0);
         camera.setParameters(parameters);
 
         parameters = camera.getParameters();

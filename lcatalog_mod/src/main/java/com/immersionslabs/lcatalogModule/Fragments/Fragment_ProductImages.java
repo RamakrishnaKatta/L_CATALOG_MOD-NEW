@@ -21,15 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.immersionslabs.lcatalogModule.ARNativeActivity;
@@ -42,24 +33,18 @@ import com.immersionslabs.lcatalogModule.Utils.PrefManager;
 import com.immersionslabs.lcatalogModule.Utils.UnzipUtil;
 import com.like.LikeButton;
 import com.like.OnAnimationEndListener;
-import com.like.OnLikeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.immersionslabs.lcatalogModule.Utils.EnvConstants.UserId;
-import static com.immersionslabs.lcatalogModule.Utils.EnvConstants.user_Favourite_list;
-
-public class Fragment_ProductImages extends Fragment implements OnAnimationEndListener, OnLikeListener {
+public class Fragment_ProductImages extends Fragment implements OnAnimationEndListener {
 
     private static final String TAG = "Fragment_ProductImages";
 
@@ -106,7 +91,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
         final View view = inflater.inflate(R.layout.fragment_product_images, container, false);
 
         likeButton = view.findViewById(R.id.article_fav_icon);
-        likeButton.setOnLikeListener(this);
         likeButton.setOnAnimationEndListener(this);
         article_share = view.findViewById(R.id.article_share_icon);
         article_download = view.findViewById(R.id.article_download_icon);
@@ -121,14 +105,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
 
         Log.d(TAG, "onCreateView:3ds" + article_3ds);
         Log.d(TAG, "onCreateView:name" + article_name);
-
-        if (user_Favourite_list.contains(article_id)) {
-            Log.e(TAG, "Favourite Article List: " + user_Favourite_list + " Article id: " + article_id + "  --Article Exists in the ArrayList");
-            likeButton.setLiked(true);
-        } else {
-            Log.e(TAG, "Favourite Article List: " + user_Favourite_list + " Article id: " + article_id + "  --Article Doesn't Exist in the ArrayList");
-            likeButton.setLiked(false);
-        }
 
         try {
 
@@ -386,75 +362,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
 
     @Override
     public void onAnimationEnd(LikeButton likeButton) {
-
-    }
-
-    @Override
-    public void liked(LikeButton likeButton) {
-        user_Favourite_list.add(article_id);
-        likeApiCall(1);
-    }
-
-    @Override
-    public void unLiked(LikeButton likeButton) {
-        user_Favourite_list.remove(article_id);
-        likeApiCall(0);
-        Toast.makeText(getContext(), "Disliked!", Toast.LENGTH_SHORT).show();
-    }
-
-    public void likeApiCall(final int value) {
-        JSONObject favorites = new JSONObject();
-        try {
-            favorites.put("liked", value);
-            favorites.put("userid", UserId);
-            favorites.put("article_id", article_id);
-            Log.e(TAG, "--------------------------------------------------" + UserId);
-            Log.e(TAG, "--------------------------------------------------" + article_id);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, LIKE_URL, favorites, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e(TAG, "onResponse: Like" + response);
-                if (value == 1) {
-                    Toast.makeText(getContext(), "Liked!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "DisLiked!", Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    resp = response.getString("success");
-                    code = response.getString("status_code");
-                    message = response.getString("message");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
-                // As of f605da3 the following should work
-                NetworkResponse response = error.networkResponse;
-                if (error instanceof ServerError && response != null) {
-                    try {
-                        String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                        // Now you can use any deserializer to make sense of data
-                        JSONObject request = new JSONObject(res);
-                    } catch (UnsupportedEncodingException | JSONException e1) {
-                        // Couldn't properly decode data to string
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(jsonObjectRequest);
 
     }
 

@@ -86,6 +86,11 @@
             android:label="@string/faq_activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name="org.artoolkit.ar.base.camera.CameraPreferencesActivity"
+            android:label="Camera Preferences"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
