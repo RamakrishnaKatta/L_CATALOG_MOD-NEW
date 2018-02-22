@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.immersionslabs.lcatalogModule.ProductPageActivity;
 import com.immersionslabs.lcatalogModule.R;
-import com.immersionslabs.lcatalogModule.Utils.DownloadImages_Product;
 import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 
 import org.json.JSONArray;
@@ -117,17 +116,13 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         try {
 
             JSONArray images_json = new JSONArray(get_image);
-//            for (int i = 0; i < images_json.length(); i++) {
                 if (images_json.length() > 0) {
                     im1 = images_json.getString(0);
                     Log.e(TAG, "image1 >>>>" + im1);
-//                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        new DownloadImages_Product(viewHolder.item_image).execute(im1);
-
         Glide.with(activity)
                 .load(EnvConstants.APP_BASE_URL + "/upload/images/" + im1)
                 .placeholder(R.drawable.dummy_icon)

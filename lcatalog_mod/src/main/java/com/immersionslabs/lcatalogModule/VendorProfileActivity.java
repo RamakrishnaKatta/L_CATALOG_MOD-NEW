@@ -22,7 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.immersionslabs.lcatalogModule.Utils.DownloadImages_Vendor;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 import com.immersionslabs.lcatalogModule.Utils.NetworkConnectivity;
 
@@ -128,7 +129,11 @@ public class VendorProfileActivity extends AppCompatActivity {
                     profile_vendor_location.setText(vendor_address);
                     profile_vendor_articles_list.setText("VENDOR ARTICLES (" + vendor_no_of_articles + ")");
 
-                    new DownloadImages_Vendor(profile_vendor_logo).execute(vendor_image);
+                    Glide.with(getApplicationContext())
+                            .load(EnvConstants.APP_BASE_URL + "/upload/vendorLogos/" + vendor_image)
+                            .placeholder(R.drawable.dummy_icon)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(profile_vendor_logo);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

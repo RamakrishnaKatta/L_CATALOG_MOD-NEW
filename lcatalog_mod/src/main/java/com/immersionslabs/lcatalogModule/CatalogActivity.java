@@ -174,6 +174,7 @@ public class CatalogActivity extends AppCompatActivity {
     private void commonGetdata() {
         Log.e(TAG, "commonGetdata: " + REGISTER_URL);
         final JSONObject baseclass = new JSONObject();
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, REGISTER_URL, baseclass, new Response.Listener<JSONObject>() {
 
             @Override

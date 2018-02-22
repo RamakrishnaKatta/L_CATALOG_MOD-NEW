@@ -113,8 +113,6 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
                 .placeholder(R.drawable.dummy_icon)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.item_image);
-//        new DownloadImages_Product(holder.item_image).execute(im1);
-
 
         Integer x = Integer.parseInt(item_prices.get(position));
         Integer y = Integer.parseInt(item_discounts.get(position));

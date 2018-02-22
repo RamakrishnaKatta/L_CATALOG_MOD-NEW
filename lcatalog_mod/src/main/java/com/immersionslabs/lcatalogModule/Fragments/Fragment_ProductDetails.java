@@ -26,8 +26,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.immersionslabs.lcatalogModule.R;
-import com.immersionslabs.lcatalogModule.Utils.DownloadImages_Vendor;
 import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 import com.immersionslabs.lcatalogModule.VendorProfileActivity;
 
@@ -157,7 +158,12 @@ public class Fragment_ProductDetails extends Fragment implements View.OnClickLis
 
                     article_vendor_name.setText(vendor_name);
                     article_vendor_location.setText(vendor_address);
-                    new DownloadImages_Vendor(article_vendor_logo).execute(vendor_image);
+
+                    Glide.with(getContext())
+                            .load(EnvConstants.APP_BASE_URL + "/upload/vendorLogos/" + vendor_image)
+                            .placeholder(R.drawable.dummy_icon)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(article_vendor_logo);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

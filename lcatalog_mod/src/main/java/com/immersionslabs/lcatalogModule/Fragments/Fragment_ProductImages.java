@@ -50,7 +50,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
 
     private static String FILE_URL_3DS = EnvConstants.APP_BASE_URL + "/upload/3dviewfiles/";
 
-    private static String LIKE_URL = "http://35.154.150.204:4000/users/favouriteArticles";
+//    private static String LIKE_URL = EnvConstants.APP_BASE_URL + "/users/favouriteArticles";
 
     private static String EXTENDED_URL_3DS;
 
@@ -221,7 +221,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
 
                                     zip_3ds_downloaded = true;
 
-                                    Log.e(TAG, "Zip Downloaded ---------- " + zip_3ds_downloaded);
+                                    Log.e(TAG, "Zip Downloaded ---------- " + true);
                                     progressDialog.dismiss();
                                     article_download.setVisibility(View.GONE);
                                     article_3d_view.setEnabled(true);
@@ -233,7 +233,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
                                     article_download.setVisibility(View.VISIBLE);
                                     article_3d_view.setEnabled(false);
                                     zip_3ds_downloaded = false;
-                                    Log.e(TAG, "Zip Not Downloaded ---------- " + zip_3ds_downloaded);
+                                    Log.e(TAG, "Zip Not Downloaded ---------- " + false);
                                     e.printStackTrace();
                                     note.setVisibility(View.VISIBLE);
                                     zip_downloaded.setText("Download !");
@@ -247,7 +247,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
         article_3d_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (zip_3ds_downloaded == true) {
+                if (zip_3ds_downloaded) {
 
                     Bundle b3 = new Bundle();
                     b3.putString("article_name", article_name);
@@ -374,9 +374,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        Activity activity;
         if (context instanceof Activity) {
-            activity = (Activity) context;
         }
     }
 

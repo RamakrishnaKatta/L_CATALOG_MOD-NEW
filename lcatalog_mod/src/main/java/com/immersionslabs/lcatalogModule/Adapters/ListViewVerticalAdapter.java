@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.immersionslabs.lcatalogModule.ProductPageActivity;
 import com.immersionslabs.lcatalogModule.R;
-import com.immersionslabs.lcatalogModule.Utils.DownloadImages_Product;
 import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 
 import org.json.JSONArray;
@@ -106,7 +105,6 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
                 .placeholder(R.drawable.dummy_icon)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.item_image);
-//        new DownloadImages_Product(holder.item_image).execute(im1);
         Integer x = Integer.parseInt(item_prices.get(position));
         Integer y = Integer.parseInt(item_discounts.get(position));
         Integer z = (x * (100 - y)) / 100;
