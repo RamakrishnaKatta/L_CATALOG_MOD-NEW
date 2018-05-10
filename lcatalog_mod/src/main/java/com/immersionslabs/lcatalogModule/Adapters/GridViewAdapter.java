@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -82,7 +82,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView item_name, item_description, item_price, item_discount, item_price_new;
-        private ImageView item_image;
+        private AppCompatImageView item_image;
         private RelativeLayout grid_container;
 
         ViewHolder(View view) {

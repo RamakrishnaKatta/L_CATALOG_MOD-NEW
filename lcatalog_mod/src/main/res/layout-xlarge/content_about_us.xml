@@ -10,8 +10,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,15 +20,17 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/about_header1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:text="@string/what_is_l_catalog"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
@@ -37,9 +38,9 @@
                     android:id="@+id/textview2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_2"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/Catalogue"
-                    android:textSize="@dimen/text_tab_small" />
+                    android:textSize="@dimen/text_tab_medium" />
 
             </LinearLayout>
 
@@ -51,34 +52,37 @@
 
                 <TextView
                     android:id="@+id/textview3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:text="@string/product_objectives"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textview4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/objectives"
-                    android:textSize="@dimen/text_tab_small"
-                    android:textStyle="normal" />
-
+                    android:textSize="@dimen/text_tab_medium" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/margin_5">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/textview5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:text="@string/definition_and_description"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
@@ -86,8 +90,9 @@
                     android:id="@+id/textview6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/Definition"
-                    android:textSize="@dimen/text_tab_small" />
+                    android:textSize="@dimen/text_tab_medium" />
 
             </LinearLayout>
 
@@ -95,13 +100,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/margin_5">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/textview7"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:text="@string/product_overview"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
@@ -109,8 +116,9 @@
                     android:id="@+id/textview8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/data"
-                    android:textSize="@dimen/text_tab_small" />
+                    android:textSize="@dimen/text_tab_medium" />
 
             </LinearLayout>
 
@@ -118,77 +126,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/margin_5">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/textview9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_2"
+                    android:fontFamily="@font/overlock_sc"
+                    android:paddingBottom="@dimen/margin_4"
                     android:text="@string/contact_us"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/margin_15"
                     android:weightSum="5">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/facebook_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fitsSystemWindows="true"
-                        android:src="@mipmap/ic_facebook"
-                        android:contentDescription="@string/socialmedia" />
+                        android:contentDescription="@string/icon_facebook"
+                        android:src="@mipmap/ic_facebook" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/linkedin_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fitsSystemWindows="true"
-                        android:src="@mipmap/ic_linkedin"
-                        android:contentDescription="@string/socialmedia" />
+                        android:contentDescription="@string/icon_linkedin"
+                        android:src="@mipmap/ic_linkedin" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/instagram_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fitsSystemWindows="true"
-                        android:src="@mipmap/ic_instagram"
-                        android:contentDescription="@string/socialmedia" />
+                        android:contentDescription="@string/icon_instagram"
+                        android:src="@mipmap/ic_instagram" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/twitter_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fitsSystemWindows="true"
-                        android:src="@mipmap/ic_twitter"
-                        android:contentDescription="@string/socialmedia" />
+                        android:contentDescription="@string/icon_twitter"
+                        android:src="@mipmap/ic_twitter" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/youtube_about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fitsSystemWindows="true"
-                        android:src="@mipmap/ic_youtube"
-                        android:contentDescription="@string/socialmedia" />
+                        android:contentDescription="@string/icon_youtube"
+                        android:src="@mipmap/ic_youtube" />
 
                 </LinearLayout>
-
 
             </LinearLayout>
 

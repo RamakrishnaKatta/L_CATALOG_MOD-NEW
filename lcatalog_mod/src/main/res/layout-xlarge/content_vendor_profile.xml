@@ -14,20 +14,20 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/profile_vendor_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_500"
-            app:srcCompat="@drawable/dummy_icon" />
+            android:layout_height="250dp" />
 
         <TextView
             android:id="@+id/profile_vendor_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/overlock_sc"
             android:gravity="center"
-            android:padding="@dimen/margin_20"
-            android:text="Vendor Name"
+            android:padding="@dimen/margin_10"
+            android:text="@string/vendor_name"
             android:textAllCaps="true"
             android:textSize="@dimen/text_tab_large"
             android:textStyle="bold" />
@@ -37,9 +37,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/assistant_semibold"
             android:gravity="center"
-            android:padding="@dimen/margin_20"
-            android:text="Vendor Address"
+            android:padding="@dimen/margin_10"
+            android:text="@string/vendor_address"
             android:textAllCaps="false"
             android:textSize="@dimen/text_tab_medium"
             android:textStyle="bold" />
@@ -51,10 +52,12 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin_50"
             android:layout_marginTop="@dimen/margin_20"
+            android:fontFamily="@font/assistant_semibold"
             android:padding="@dimen/margin_20"
-            android:text="Vendor Articles"
+            android:text="@string/vendor_articles"
             android:textAlignment="center"
-            android:textSize="@dimen/text_tab_medium" />
+            android:textSize="@dimen/text_tab_medium"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

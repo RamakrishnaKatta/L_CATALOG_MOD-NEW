@@ -1,14 +1,13 @@
 package com.immersionslabs.lcatalogModule;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,15 +23,11 @@ public class SplashScreenActivity extends AppCompatActivity implements Animation
 
         app_name = findViewById(R.id.application_name);
         powered = findViewById(R.id.immersionslabs);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Graduate-Regular.ttf");
-        Typeface custom_font2 = Typeface.createFromAsset(getAssets(), "fonts/Cookie-Regular.ttf");
-        app_name.setTypeface(custom_font);
-        powered.setTypeface(custom_font2);
 
         animate();
 
         // load the animation
-        animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation_fade_in);
         // set animation listener
         animFadeIn.setAnimationListener(this);
         // animation for image
@@ -41,11 +36,11 @@ public class SplashScreenActivity extends AppCompatActivity implements Animation
         linearLayout.setVisibility(View.VISIBLE);
         linearLayout.startAnimation(animFadeIn);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     }
 
     private void animate() {
-
-        final ImageView imageView = findViewById(R.id.splash_icon);
+        final AppCompatImageView imageView = findViewById(R.id.splash_icon);
         final Animation animation_1 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
         final Animation animation_2 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anti_rotate);
         imageView.startAnimation(animation_2);
@@ -65,7 +60,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Animation
             public void onAnimationRepeat(Animation animation) {
             }
         });
-
         animation_1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -92,6 +86,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Animation
         this.finish();
         super.onBackPressed();
     }
+
 
     @Override
     public void onAnimationStart(Animation animation) {

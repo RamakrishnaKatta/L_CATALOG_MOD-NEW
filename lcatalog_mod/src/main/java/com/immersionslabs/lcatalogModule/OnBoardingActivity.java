@@ -3,7 +3,6 @@ package com.immersionslabs.lcatalogModule;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -31,9 +30,33 @@ public class OnBoardingActivity extends AppCompatActivity {
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
 
+    //	viewpager change listener
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
-    TextView welcome_11, welcome_13, welcome_21, welcome_31, welcome_32, welcome_41;
-    TextView welcome_14, welcome_22, welcome_42, welcome_43;
+        @Override
+        public void onPageSelected(int position) {
+            addBottomDots(position);
+
+            // changing the next button text 'NEXT' / 'GOT IT'
+            if (position == layouts.length - 1) {
+                // last page. make button text to GOT IT
+                btnNext.setText(getString(R.string.start));
+                btnSkip.setVisibility(View.GONE);
+            } else {
+                // still pages are left
+                btnNext.setText(getString(R.string.next));
+                btnSkip.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +76,11 @@ public class OnBoardingActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_onboarding);
 
+
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
         btnSkip = findViewById(R.id.btn_skip);
-        btnSkip.setTextSize(20);
-        btnSkip.setTypeface(btnSkip.getTypeface(), Typeface.BOLD_ITALIC);
         btnNext = findViewById(R.id.btn_next);
-        btnNext.setTextSize(20);
-        btnNext.setTypeface(btnNext.getTypeface(), Typeface.BOLD_ITALIC);
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -156,34 +176,6 @@ public class OnBoardingActivity extends AppCompatActivity {
         finish();
     }
 
-    //	viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);
-
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
-                // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.start));
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-        }
-    };
-
     /**
      * Making notification bar transparent
      */
@@ -210,61 +202,6 @@ public class OnBoardingActivity extends AppCompatActivity {
 
             assert layoutInflater != null;
             View view = layoutInflater.inflate(layouts[position], container, false);
-
-            Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/Graduate-Regular.ttf");
-            Typeface custom_font2 = Typeface.createFromAsset(getAssets(), "fonts/Cookie-Regular.ttf");
-
-            // Titles
-            welcome_11 = view.findViewById(R.id.txt_welcome_11);
-            if (welcome_11 != null) {
-                welcome_11.setTypeface(custom_font);
-            }
-
-            welcome_13 = view.findViewById(R.id.txt_welcome_13);
-            if (welcome_13 != null) {
-                welcome_13.setTypeface(custom_font);
-            }
-
-            welcome_31 = view.findViewById(R.id.txt_welcome_31);
-            if (welcome_31 != null) {
-                welcome_31.setTypeface(custom_font);
-            }
-
-            welcome_41 = view.findViewById(R.id.txt_welcome_41);
-            if (welcome_41 != null) {
-                welcome_41.setTypeface(custom_font);
-            }
-
-            welcome_42 = view.findViewById(R.id.txt_welcome_42);
-            if (welcome_42 != null) {
-                welcome_42.setTypeface(custom_font);
-            }
-
-            welcome_21 = view.findViewById(R.id.txt_welcome_21);
-            if (welcome_21 != null) {
-                welcome_21.setTypeface(custom_font);
-            }
-
-            //SubTitles
-            welcome_22 = view.findViewById(R.id.txt_welcome_22);
-            if (welcome_22 != null) {
-                welcome_22.setTypeface(custom_font2);
-            }
-
-            welcome_43 = view.findViewById(R.id.txt_welcome_43);
-            if (welcome_43 != null) {
-                welcome_43.setTypeface(custom_font2);
-            }
-
-            welcome_32 = view.findViewById(R.id.txt_welcome_32);
-            if (welcome_32 != null) {
-                welcome_32.setTypeface(custom_font2);
-            }
-
-            welcome_14 = view.findViewById(R.id.txt_welcome_14);
-            if (welcome_14 != null) {
-                welcome_14.setTypeface(custom_font2);
-            }
 
             container.addView(view);
             return view;

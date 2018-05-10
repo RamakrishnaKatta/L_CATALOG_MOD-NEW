@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/welcome_layout_4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:fitsSystemWindows="true"
     android:gravity="center"
     android:orientation="vertical">
@@ -12,14 +10,14 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:weightSum="2">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -33,14 +31,15 @@
                     android:id="@+id/capture_image"
                     android:layout_width="@dimen/margin_200"
                     android:layout_height="@dimen/margin_200"
-                    android:src="@drawable/ic_capture_hd"
-                    android:contentDescription="@string/slide4_title_capture" />
+                    android:contentDescription="@string/slide4_title_capture"
+                    android:src="@drawable/ic_capture_hd" />
 
                 <TextView
                     android:id="@+id/txt_welcome_41"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/capture_image"
+                    android:fontFamily="@font/graduate"
                     android:text="@string/slide4_title_capture"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_tab_xxxlarge"
@@ -58,8 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:weightSum="2">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -77,6 +76,7 @@
                     android:id="@+id/txt_welcome_42"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/graduate"
                     android:text="@string/slide4_title_share"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_tab_xxxlarge"
@@ -87,8 +87,8 @@
                     android:layout_width="@dimen/margin_200"
                     android:layout_height="@dimen/margin_200"
                     android:layout_below="@+id/txt_welcome_42"
-                    android:src="@drawable/ic_share_hd"
-                    android:contentDescription="@string/slide4_title_share" />
+                    android:contentDescription="@string/slide4_title_share"
+                    android:src="@drawable/ic_share_hd" />
 
             </RelativeLayout>
 
@@ -99,6 +99,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
+            android:fontFamily="@font/cookie"
             android:padding="@dimen/margin_20"
             android:text="@string/slide4_desc"
             android:textAlignment="center"

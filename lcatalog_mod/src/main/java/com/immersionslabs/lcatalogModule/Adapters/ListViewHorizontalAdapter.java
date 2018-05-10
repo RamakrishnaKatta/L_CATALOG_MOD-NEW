@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -163,7 +163,7 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView item_name, item_description, item_price, item_discount, item_price_new;
-        private ImageView item_image;
+        private AppCompatImageView item_image;
         private RelativeLayout h_container;
 
         ViewHolder(View itemView) {
@@ -175,11 +175,6 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
             item_price = itemView.findViewById(R.id.h_item_price);
             item_discount = itemView.findViewById(R.id.h_item_discount_value);
             item_price_new = itemView.findViewById(R.id.h_item_price_new);
-
-            Typeface custom_font = Typeface.createFromAsset(activity.getAssets(), "fonts/Graduate-Regular.ttf");
-            Typeface custom_font2 = Typeface.createFromAsset(activity.getAssets(), "fonts/Cookie-Regular.ttf");
-            item_name.setTypeface(custom_font);
-            item_description.setTypeface(custom_font2);
 
 
         }

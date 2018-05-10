@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class Fragment_ProductDetails extends Fragment implements View.OnClickLis
 
     TextView article_title, article_description, article_old_price, article_discount, article_width, article_height, article_length, article_new_price;
     TextView article_vendor_name, article_vendor_location;
-    ImageView article_vendor_logo;
+    AppCompatImageView article_vendor_logo;
 
     LinearLayout vendor_details;
 

@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_10"
-                android:text="FEATURE LIST"
+                android:text="@string/feature_list"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -44,6 +44,7 @@
                     android:layout_height="@dimen/margin_200"
                     android:layout_gravity="center"
                     android:background="@drawable/round_button"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/catalog"
                     android:textSize="32sp"
                     android:textStyle="bold" />
@@ -52,6 +53,7 @@
                     android:id="@+id/text_catalog_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:padding="@dimen/margin_10"
                     android:paddingEnd="@dimen/margin_0"
                     android:paddingStart="@dimen/margin_40"
@@ -77,8 +79,10 @@
                     android:layout_height="@dimen/margin_200"
                     android:layout_gravity="center"
                     android:background="@drawable/round_button"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/augment"
                     android:textSize="32sp"
+
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,8 +90,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:fontFamily="@font/overlock_sc"
                     android:linksClickable="true"
                     android:padding="@dimen/margin_10"
+                    android:paddingEnd="@dimen/margin_0"
                     android:paddingStart="@dimen/margin_40"
                     android:text="@string/text_aument_desc"
                     android:textAlignment="textStart"
@@ -112,6 +118,7 @@
                     android:layout_height="@dimen/margin_200"
                     android:layout_gravity="center"
                     android:background="@drawable/round_button"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/about_us"
                     android:textSize="32sp"
                     android:textStyle="bold" />
@@ -120,6 +127,7 @@
                     android:id="@+id/text_aboutus_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:padding="@dimen/margin_10"
                     android:paddingEnd="@dimen/margin_0"
                     android:paddingStart="@dimen/margin_40"
@@ -146,6 +154,7 @@
                     android:layout_height="@dimen/margin_200"
                     android:layout_gravity="center"
                     android:background="@drawable/round_button"
+                    android:fontFamily="@font/assistant_semibold"
                     android:text="@string/faq"
                     android:textSize="32sp"
                     android:textStyle="bold" />
@@ -154,6 +163,7 @@
                     android:id="@+id/text_faq_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/overlock_sc"
                     android:padding="@dimen/margin_10"
                     android:paddingEnd="@dimen/margin_0"
                     android:paddingStart="@dimen/margin_40"

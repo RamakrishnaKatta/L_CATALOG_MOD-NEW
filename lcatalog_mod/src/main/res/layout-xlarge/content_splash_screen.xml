@@ -8,25 +8,27 @@
 
     <LinearLayout
         android:id="@+id/splash_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/background"
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/splash_icon"
             android:layout_width="@dimen/margin_300"
             android:layout_height="@dimen/margin_300"
             android:layout_gravity="center"
-            android:contentDescription="@string/dummy_description"
+            android:contentDescription="@string/company_icon"
             android:src="@drawable/companyicon" />
 
         <TextView
             android:id="@+id/application_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/graduate"
             android:gravity="center"
-            android:text="@string/app_title"
+            android:text="@string/app_name"
             android:textSize="@dimen/text_tab_max"
             android:visibility="invisible" />
 
@@ -34,12 +36,11 @@
             android:id="@+id/immersionslabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/cookie"
             android:gravity="center"
-            android:text="@string/powered_symbol_immersionslabs"
+            android:text="@string/powered_immersionslabs"
             android:textSize="@dimen/text_tab_large"
             android:textStyle="bold"
             android:visibility="invisible" />
-
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

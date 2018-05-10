@@ -67,8 +67,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
 
     String article_name, article_3ds;
 
-    String resp, code, message;
-
     private ViewPager ArticleViewPager;
     private LinearLayout Slider_dots;
     ImageSliderAdapter imagesliderAdapter;
