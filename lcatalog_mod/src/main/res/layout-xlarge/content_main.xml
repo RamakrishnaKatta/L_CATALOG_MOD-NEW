@@ -82,7 +82,6 @@
                     android:fontFamily="@font/assistant_semibold"
                     android:text="@string/augment"
                     android:textSize="32sp"
-
                     android:textStyle="bold" />
 
                 <TextView
