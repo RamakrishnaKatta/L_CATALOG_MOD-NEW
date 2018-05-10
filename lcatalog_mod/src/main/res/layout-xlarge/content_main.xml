@@ -46,7 +46,7 @@
                     android:background="@drawable/round_button"
                     android:fontFamily="@font/assistant_semibold"
                     android:text="@string/catalog"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <TextView
@@ -81,7 +81,7 @@
                     android:background="@drawable/round_button"
                     android:fontFamily="@font/assistant_semibold"
                     android:text="@string/augment"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <TextView
@@ -119,7 +119,7 @@
                     android:background="@drawable/round_button"
                     android:fontFamily="@font/assistant_semibold"
                     android:text="@string/about_us"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <TextView
@@ -155,7 +155,7 @@
                     android:background="@drawable/round_button"
                     android:fontFamily="@font/assistant_semibold"
                     android:text="@string/faq"
-                    android:textSize="32sp"
+                    android:textSize="@dimen/text_tab_large"
                     android:textStyle="bold" />
 
                 <TextView

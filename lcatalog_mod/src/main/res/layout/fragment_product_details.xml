@@ -344,7 +344,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="250dp"
+                android:layout_width="@dimen/margin_250"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
                 android:gravity="center|start"
@@ -422,8 +422,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="@dimen/margin_125"
+                android:layout_height="@dimen/margin_125"
                 android:layout_gravity="center|end"
                 android:gravity="center|end"
                 android:padding="@dimen/margin_3">
@@ -453,8 +453,8 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="@dimen/margin_125"
+                android:layout_height="@dimen/margin_125"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="@dimen/margin_3">
