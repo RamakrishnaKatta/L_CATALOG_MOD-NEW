@@ -31,9 +31,7 @@ import com.immersionslabs.lcatalogModule.Utils.DownloadManager_3DS;
 import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 import com.immersionslabs.lcatalogModule.Utils.PrefManager;
 import com.immersionslabs.lcatalogModule.Utils.UnzipUtil;
-import com.like.LikeButton;
-import com.like.OnAnimationEndListener;
-import com.like.OnLikeListener;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +43,7 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Fragment_ProductImages extends Fragment implements OnAnimationEndListener, OnLikeListener {
+public class Fragment_ProductImages extends Fragment {
 
     private static final String TAG = "Fragment_ProductImages";
 
@@ -58,7 +56,7 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
     private PrefManager prefManager;
 
     LinearLayout note;
-    ImageButton article_share, article_download, article_3d_view, article_augment, article_budgetlist;
+    ImageButton  article_download, article_3d_view, article_augment;
     TextView zip_downloaded;
 
     String article_images, article_id;
@@ -74,7 +72,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
     TextView[] dots;
     int page_position = 0;
 
-    LikeButton likeButton;
 
     String Article_3DS_ZipFileLocation, Article_3DS_ExtractLocation, Article_3DS_FileLocation;
     private boolean zip_3ds_downloaded = true;
@@ -89,27 +86,15 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_product_images, container, false);
 
-        likeButton = view.findViewById(R.id.article_fav_icon);
-        likeButton.setOnLikeListener(this);
-        likeButton.setOnAnimationEndListener(this);
-        article_share = view.findViewById(R.id.article_share_icon);
         article_download = view.findViewById(R.id.article_download_icon);
         article_3d_view = view.findViewById(R.id.article_3dview_icon);
         article_augment = view.findViewById(R.id.article_augment_icon);
         zip_downloaded = view.findViewById(R.id.download_text);
-        article_budgetlist = view.findViewById(R.id.article_budget_icon);
 
         article_images = getArguments().getString("article_images");
         article_name = getArguments().getString("article_name");
         article_3ds = getArguments().getString("article_3ds");
         article_id = getArguments().getString("article_id");
-
-        article_budgetlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Sorry,This feature is currently unavailable", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Log.d(TAG, "onCreateView:3ds" + article_3ds);
         Log.d(TAG, "onCreateView:name" + article_name);
@@ -265,18 +250,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
             }
         });
 
-        article_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Sorry,This feature is currently unavailable", Toast.LENGTH_SHORT).show();
-//                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-//                sharingIntent.setType("text/plain");
-//                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "L_CATALOG_MOD");
-//                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "If you want to know more details Click here to visit http://immersionslabs.com/ ");
-//                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-            }
-        });
-
         article_augment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,11 +343,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
     }
 
     @Override
-    public void onAnimationEnd(LikeButton likeButton) {
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -402,16 +370,6 @@ public class Fragment_ProductImages extends Fragment implements OnAnimationEndLi
         super.onPause();
     }
 
-    @Override
-    public void liked(LikeButton likeButton) {
-        Toast.makeText(getContext(), "Sorry,This feature is currently unavailable", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void unLiked(LikeButton likeButton) {
-        Toast.makeText(getContext(), "Sorry,This feature is currently unavailable", Toast.LENGTH_SHORT).show();
-
-    }
 }
 
 
