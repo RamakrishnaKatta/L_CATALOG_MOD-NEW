@@ -15,7 +15,7 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
 
 
     private String a_name, a_description, a_old_price, a_discount, a_newPrice, a_dimensions,
-            a_width, a_height, a_length, a_position, a_id, a_images, a_vendor_id, a_3ds;
+            a_width, a_height, a_length, a_position, a_id, a_images, a_vendor_id, a_3ds, a_pattern;
 
     private int mNumOfTabs;
 
@@ -34,7 +34,8 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
                               String id,
                               String images,
                               String article_vendor_id,
-                              String article_3ds) {
+                              String article_3ds,
+                              String article_pattern) {
         super(fragmentManager);
         this.mNumOfTabs = tabCount;
         this.a_name = name;
@@ -51,6 +52,7 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
         this.a_id = id;
         this.a_vendor_id = article_vendor_id;
         this.a_3ds = article_3ds;
+        this.a_pattern = article_pattern;
 
 
         Log.e(TAG, "Acquired Article Details: " + a_name
@@ -59,7 +61,9 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
                 + " ---" + a_newPrice
                 + " ---" + a_id
                 + " ---" + a_position
-                + "---" + a_3ds);
+                + "---" + a_3ds
+                + " ---" + a_pattern);
+
     }
 
     @Override
@@ -94,6 +98,7 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
                 b_tab2.putString("article_length", a_length);
                 b_tab2.putString("article_position", a_position);
                 b_tab2.putString("article_vendor_id", a_vendor_id);
+                b_tab2.putString("article_pattern_file", a_pattern);
 
                 Fragment_ProductDetails tab2 = new Fragment_ProductDetails();
                 tab2.setArguments(b_tab2);

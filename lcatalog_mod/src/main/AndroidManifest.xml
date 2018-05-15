@@ -87,6 +87,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
+            android:name=".ProjectActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".ProjectDetailActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".ProjectPartDetailsActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
             android:name="org.artoolkit.ar.base.camera.CameraPreferencesActivity"
             android:label="Camera Preferences"
             android:screenOrientation="portrait"
