@@ -4,38 +4,27 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.os.Environment;
-import android.util.Log;
 
 import com.immersionslabs.lcatalogModule.R;
+import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
-    private final Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
-
-    /**
-     * Model view projection matrices for 3d transforms
-     */
-    private float[] mModelMatrix = new float[16];
-    private float[] mViewMatrix = new float[16];
-    private float[] mProjectionMatrix = new float[16];
-    private float[] mMVPMatrix = new float[16];
-
-    private float[] mLightModelMatrix = new float[16];
+    private final Context mActivityContext;
     /**
      * Used to hold a light centered on the origin in model space. We need a 4th coordinate so we can get translations to work when
      * we multiply this by our transformation matrices.
      */
-    private final float[] mLightPosInModelSpace = new float[]{4.0f, 4.0f, 4.0f, 2.0f};
+    private final float[] mLightPosInModelSpace = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
     /**
      * Used to hold the current position of the light in world space (after transformation via model matrix).
      */
@@ -45,18 +34,30 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
      */
     private final float[] mLightPosInEyeSpace = new float[4];
     /**
-     * This will be used to pass in the light position.
+     * Store the accumulated rotation.
      */
-    private int mLightPosHandle;
-
-    private Parser3ds[] model;
-
-    private int currentObject = 0;
-
+    private final float[] mAccumulatedRotation = new float[16];
+    /**
+     * Store the current rotation.
+     */
+    private final float[] mCurrentRotation = new float[16];
     // These still work without volatile, but refreshes are not guaranteed to happen.
     volatile float mDeltaX;
     volatile float mDeltaY;
-
+    /**
+     * Model view projection matrices for 3d transforms
+     */
+    private float[] mModelMatrix = new float[16];
+    private float[] mViewMatrix = new float[16];
+    private float[] mProjectionMatrix = new float[16];
+    private float[] mMVPMatrix = new float[16];
+    private float[] mLightModelMatrix = new float[16];
+    /**
+     * This will be used to pass in the light position.
+     */
+    private int mLightPosHandle;
+    private Parser3ds[] model;
+    private int currentObject = 0;
     private int mMVPMatrixHandle;
     private int mMVMatrixHandle;
     /**
@@ -64,38 +65,27 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
      */
     private int mTextureCoordinateHandle;
     private int mTextureUniformHandle;
-
     private int mProgramHandle;
     private int mPositionHandle;
     private int mNormalHandle;
-
+    DataInputStream stream;
     /**
      * This is a handle to our light point program.
      */
     private int mPointProgramHandle;
-
-    /**
-     * Store the accumulated rotation.
-     */
-    private final float[] mAccumulatedRotation = new float[16];
-
-    /**
-     * Store the current rotation.
-     */
-    private final float[] mCurrentRotation = new float[16];
-
     /**
      * A temporary matrix.
      */
     private float[] mTemporaryMatrix = new float[16];
 
-    private String model_name;
+    private String article_name, article_3ds_file_name;
+    private String DOWNLOAD_URL;
 
-    public MyGLRenderer(final Context activityContext, String name) {
+    public MyGLRenderer(final Context activityContext, String DOWNLOAD_URL) {
 
         //We need to pass the Main activity context
         mActivityContext = activityContext;
-        model_name = name;
+        this.DOWNLOAD_URL=DOWNLOAD_URL;
     }
 
     @Override
@@ -104,27 +94,21 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         /**
          * @param model All the 3ds models from the folder in the phone local storage are loaded in this array
          */
-
-        File f = new File(Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/Models/" + model_name + "/" + "article_view.3ds");
-        Log.e(TAG, "User -- " + f);
-        InputStream stream = null;
+        URL u = null;
         try {
-            stream = new FileInputStream(f);
-        } catch (FileNotFoundException e) {
+            u = new URL(DOWNLOAD_URL);
+            u.openConnection();
+            stream = new DataInputStream(u.openStream());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         /**
          * @param model All the 3ds models from the "raw" resource folder are loaded in this array
          */
-        model = new Parser3ds[]{
-
-                new Parser3ds(stream, mActivityContext),
-                //This is passed with a default constructor
-//                new Parser3ds(mActivityContext.getResources().openRawResource(R.raw.bedsofa), mActivityContext),
-                //In this case, the 3rd parameter "red_car" is the name of the texture, since a default texture was not provided in the original 3ds file
-//                new Parser3ds(mActivityContext.getResources().openRawResource(R.raw.car), mActivityContext, "red_car"),
-        };
+        model = new Parser3ds[]{new Parser3ds(stream, mActivityContext)};
 
         //This will be used for touch rotation
         Matrix.setIdentityM(mAccumulatedRotation, 0);
@@ -175,6 +159,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and
         // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
         Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
+
     }
 
     @Override
@@ -240,7 +225,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Draw a point to indicate the light.
         GLES20.glUseProgram(mPointProgramHandle);
-
         drawLight();
     }
 

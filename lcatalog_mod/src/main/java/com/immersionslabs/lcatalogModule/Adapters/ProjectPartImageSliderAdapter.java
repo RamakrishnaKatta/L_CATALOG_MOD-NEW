@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ProjectPartImageSliderAdapter extends PagerAdapter {
     private ArrayList<String> Images;
     private Activity activity;
-    AppCompatImageView images;
+    private AppCompatImageView images;
     private String project_id;
     private static final String TAG = "ProjectPartImageSliderAdapter";
 

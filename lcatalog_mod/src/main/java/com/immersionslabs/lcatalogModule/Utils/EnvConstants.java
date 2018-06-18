@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class EnvConstants {
 
-    public static final String APP_BASE_URL ="http://ladmin.immersionslabs.com";
+    public static final String APP_BASE_URL ="https://ladmin.immersionslabs.com";
 //    public static final String APP_BASE_URL = "http://35.154.150.204:4000";
 
     public static String user_type = null;

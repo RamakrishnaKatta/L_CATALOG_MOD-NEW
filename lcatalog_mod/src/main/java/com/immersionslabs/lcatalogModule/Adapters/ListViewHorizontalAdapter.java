@@ -43,6 +43,7 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
     private ArrayList<String> item_images;
     private ArrayList<String> item_dimensions;
     private ArrayList<String> item_3ds;
+    private ArrayList<String> item_3ds_file;
 
 
     public ListViewHorizontalAdapter(Activity activity,
@@ -54,7 +55,8 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
                                      ArrayList<String> item_vendors,
                                      ArrayList<String> item_images,
                                      ArrayList<String> item_dimensions,
-                                     ArrayList<String> item_3ds) {
+                                     ArrayList<String> item_3ds,
+                                     ArrayList<String> item_3ds_file) {
 
         this.item_ids = item_ids;
         this.item_names = item_names;
@@ -65,6 +67,7 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
         this.item_images = item_images;
         this.item_dimensions = item_dimensions;
         this.item_3ds = item_3ds;
+        this.item_3ds_file = item_3ds_file;
 
         Log.e(TAG, "id----" + item_ids);
         Log.e(TAG, "names----" + item_names);
@@ -75,6 +78,7 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
         Log.e(TAG, "images----" + item_images);
         Log.e(TAG, "dimensions----" + item_dimensions);
         Log.e(TAG, "3ds----" + item_3ds);
+        Log.e(TAG, "3dsfile ---- " + item_3ds_file);
 
         this.activity = activity;
 
@@ -146,6 +150,7 @@ public class ListViewHorizontalAdapter extends RecyclerView.Adapter<ListViewHori
                 b.putString("article_3ds", item_3ds.get(position));
                 b.putString("article_images", item_images.get(position));
                 b.putString("article_position", String.valueOf(position));
+                b.putString("article_3dsfile", item_3ds_file.get(position));
 
                 intent.putExtras(b);
                 context[0].startActivity(intent);

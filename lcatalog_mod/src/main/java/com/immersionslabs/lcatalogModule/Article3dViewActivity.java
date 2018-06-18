@@ -3,6 +3,7 @@ package com.immersionslabs.lcatalogModule;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +17,17 @@ import android.widget.Toast;
 
 import com.immersionslabs.lcatalogModule.Loader3ds.MyGLRenderer;
 import com.immersionslabs.lcatalogModule.Loader3ds.MyGLSurfaceView;
+import com.immersionslabs.lcatalogModule.Utils.EnvConstants;
 
 public class Article3dViewActivity extends AppCompatActivity {
 
     private static final String TAG = "Article3dViewActivity";
 
+    String a_name, a_3ds_file_name, p_3ds_file_name, p_name, part_3d_name, part_3ds_file_name;
     private MyGLSurfaceView mGLView;
     private MyGLRenderer mRenderer;
     private SeekBar scaleBar;
-    String name;
+    String DOWNLOAD_URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,29 @@ public class Article3dViewActivity extends AppCompatActivity {
         }
 
         Bundle b3 = getIntent().getExtras();
-        name = (String) b3.getCharSequence("article_name");
-        Log.e(TAG, "Name ---- " + name);
+        assert b3 != null;
+        a_name = (String) b3.getCharSequence("article_name");
+        a_3ds_file_name = (String) b3.getCharSequence("article_3ds_file_name");
+        Log.e(TAG, "Name ---- " + a_name);
+        Log.e(TAG, "3DS File Name ---- " + a_3ds_file_name);
+
+        Bundle b4 = getIntent().getExtras();
+        p_name = (String) b4.getCharSequence("projectName");
+        p_3ds_file_name = (String) b4.getCharSequence("project_3ds_file_name");
+        p_3ds_file_name = p_name + p_3ds_file_name;
+        Log.e(TAG, "P_name ------" + p_name);
+
+        Bundle b5 = getIntent().getExtras();
+        String name_project = (String) b5.getCharSequence("name_project");
+        part_3d_name = (String) b5.getCharSequence("part3dsName");
+        part_3ds_file_name = name_project + part_3d_name;
+        Log.e(TAG, "Part_name----" + part_3d_name);
+        if (a_name != null)
+            DOWNLOAD_URL = EnvConstants.APP_BASE_URL + "/upload/3dviewfiles/" + a_3ds_file_name;
+        if (p_name != null)
+            DOWNLOAD_URL = EnvConstants.APP_BASE_URL + "/upload/project_view3d/" + p_3ds_file_name;
+        if (part_3d_name != null)
+            DOWNLOAD_URL = EnvConstants.APP_BASE_URL + "/upload/partview_3d/" + part_3ds_file_name;
 
         FloatingActionButton fab = findViewById(R.id.fab_3dView);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +80,9 @@ public class Article3dViewActivity extends AppCompatActivity {
         });
 
         mGLView = findViewById(R.id.glView);
+        mGLView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        mGLView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+
 
         // Check if the system supports OpenGL ES 2.0.
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -70,7 +97,8 @@ public class Article3dViewActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
             // Set the renderer for the GLSurfaceView
-            mRenderer = new MyGLRenderer(this, name);
+            mRenderer = new MyGLRenderer(this, DOWNLOAD_URL);
+
             mGLView.setRenderer(mRenderer, displayMetrics.density);
 
         } else {

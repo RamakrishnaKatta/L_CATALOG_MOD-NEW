@@ -51,6 +51,8 @@ public class CatalogActivity extends AppCompatActivity {
     private ArrayList<String> item_dimensions;
     private ArrayList<String> item_ids;
     private ArrayList<String> item_3ds;
+    private ArrayList<String> item_3ds_file;
+
 
     GridViewAdapter gridAdapter;
     ListViewVerticalAdapter VerticalAdapter;
@@ -101,6 +103,7 @@ public class CatalogActivity extends AppCompatActivity {
         item_dimensions = new ArrayList<>();
         item_ids = new ArrayList<>();
         item_3ds = new ArrayList<>();
+        item_3ds_file = new ArrayList<>();
 
         fab_vertical.setSize(1);
         fab_horizontal.setSize(1);
@@ -163,6 +166,7 @@ public class CatalogActivity extends AppCompatActivity {
                     item_vendors.clear();
                     item_images.clear();
                     item_dimensions.clear();
+                    item_3ds_file.clear();
 
                     commonGetdata();
 
@@ -306,6 +310,7 @@ public class CatalogActivity extends AppCompatActivity {
                 item_images.add(obj.getString("img"));
                 item_dimensions.add(obj.getString("dimensions"));
                 item_3ds.add(obj.getString("view_3d"));
+                item_3ds_file.add(obj.getString("threeds"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -320,10 +325,12 @@ public class CatalogActivity extends AppCompatActivity {
         Log.e(TAG, "images******" + item_images);
         Log.e(TAG, "dimensions******" + item_dimensions);
         Log.e(TAG, "3ds******" + item_3ds);
+        Log.e(TAG, "3dsfile******" + item_3ds_file);
 
-        gridAdapter = new GridViewAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds);
-        horizontalAdapter = new ListViewHorizontalAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds);
-        VerticalAdapter = new ListViewVerticalAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds);
+
+        gridAdapter = new GridViewAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds,item_3ds_file);
+        horizontalAdapter = new ListViewHorizontalAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds,item_3ds_file);
+        VerticalAdapter = new ListViewVerticalAdapter(this, item_ids, item_names, item_descriptions, item_prices, item_discounts, item_vendors, item_images, item_dimensions, item_3ds,item_3ds_file);
 
         if (fab_vertical.getSize() == 1 && fab_horizontal.getSize() == 1 && fab_grid.getSize() == 0) {
             recycler.removeAllViews();

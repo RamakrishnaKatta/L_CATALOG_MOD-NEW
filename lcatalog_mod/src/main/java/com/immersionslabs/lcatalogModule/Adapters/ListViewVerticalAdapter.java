@@ -39,6 +39,7 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
     private ArrayList<String> item_images;
     private ArrayList<String> item_dimensions;
     private ArrayList<String> item_3ds;
+    private ArrayList<String> item_3ds_file;
 
     public ListViewVerticalAdapter(Activity activity,
                                    ArrayList<String> item_ids,
@@ -49,7 +50,8 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
                                    ArrayList<String> item_vendors,
                                    ArrayList<String> item_images,
                                    ArrayList<String> item_dimensions,
-                                   ArrayList<String> item_3ds) {
+                                   ArrayList<String> item_3ds,
+                                   ArrayList<String> item_3ds_file) {
 
         this.item_ids = item_ids;
         this.item_names = item_names;
@@ -60,6 +62,7 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
         this.item_images = item_images;
         this.item_dimensions = item_dimensions;
         this.item_3ds = item_3ds;
+        this.item_3ds_file = item_3ds_file;
 
         Log.e(TAG, "ids----" + item_ids);
         Log.e(TAG, "names----" + item_names);
@@ -70,6 +73,8 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
         Log.e(TAG, "Images----" + item_images);
         Log.e(TAG, "Dimensions----" + item_dimensions);
         Log.e(TAG, "3ds----" + item_3ds);
+        Log.e(TAG, "3dsfile ---- " + item_3ds_file);
+
         this.activity = activity;
 
 
@@ -122,26 +127,30 @@ public class ListViewVerticalAdapter extends RecyclerView.Adapter<ListViewVertic
         holder.v_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
 
-                context[0] = v.getContext();
+                    context[0] = v.getContext();
 
-                Intent intent = new Intent(context[0], ProductPageActivity.class);
-                Bundle b = new Bundle();
+                    Intent intent = new Intent(context[0], ProductPageActivity.class);
+                    Bundle b = new Bundle();
 
-                b.putString("article_id", item_ids.get(position));
-                b.putString("article_title", item_names.get(position));
-                b.putString("article_description", item_descriptions.get(position));
-                b.putString("article_price", item_prices.get(position));
-                b.putString("article_discount", item_discounts.get(position));
-                b.putString("article_vendor", item_vendors.get(position));
-                b.putString("article_dimensions", item_dimensions.get(position));
-                b.putString("article_3ds", item_3ds.get(position));
-                b.putString("article_images", item_images.get(position));
-                b.putString("article_position", String.valueOf(position));
+                    b.putString("article_id", item_ids.get(position));
+                    b.putString("article_title", item_names.get(position));
+                    b.putString("article_description", item_descriptions.get(position));
+                    b.putString("article_price", item_prices.get(position));
+                    b.putString("article_discount", item_discounts.get(position));
+                    b.putString("article_vendor", item_vendors.get(position));
+                    b.putString("article_dimensions", item_dimensions.get(position));
+                    b.putString("article_3ds", item_3ds.get(position));
+                    b.putString("article_images", item_images.get(position));
+                    b.putString("article_position", String.valueOf(position));
+                    b.putString("article_3dsfile", item_3ds_file.get(position));
 
-                intent.putExtras(b);
-                context[0].startActivity(intent);
-
+                    intent.putExtras(b);
+                    context[0].startActivity(intent);
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
 
             }
         });

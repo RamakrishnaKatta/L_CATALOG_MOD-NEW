@@ -15,7 +15,7 @@ public class ProductPageAdapter extends FragmentStatePagerAdapter {
 
 
     private String a_name, a_description, a_old_price, a_discount, a_newPrice, a_dimensions,
-            a_width, a_height, a_length, a_position, a_id, a_images, a_vendor_id, a_3ds, a_pattern;
+            a_width, a_height, a_length, a_position, a_id, a_images, a_vendor_id, a_3ds, a_pattern,a_3ds_file;
 
     private int mNumOfTabs;
 

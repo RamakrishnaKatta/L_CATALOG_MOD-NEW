@@ -47,7 +47,6 @@ public class Fragment_ProductImages extends Fragment {
 
     private static final String TAG = "Fragment_ProductImages";
 
-    private static String FILE_URL_3DS = EnvConstants.APP_BASE_URL + "/upload/3dviewfiles/";
 
 //    private static String LIKE_URL = EnvConstants.APP_BASE_URL + "/users/favouriteArticles";
 
@@ -55,9 +54,7 @@ public class Fragment_ProductImages extends Fragment {
 
     private PrefManager prefManager;
 
-    LinearLayout note;
-    ImageButton  article_download, article_3d_view, article_augment;
-    TextView zip_downloaded;
+    ImageButton article_3d_view, article_augment;
 
     String article_images, article_id;
     // article_images is split in to five parts and assigned to each string
@@ -73,9 +70,7 @@ public class Fragment_ProductImages extends Fragment {
     int page_position = 0;
 
 
-    String Article_3DS_ZipFileLocation, Article_3DS_ExtractLocation, Article_3DS_FileLocation;
     private boolean zip_3ds_downloaded = true;
-    File article_3ds_zip_file, article_3ds_file;
 
     public Fragment_ProductImages() {
         // Required empty public constructor
@@ -86,10 +81,8 @@ public class Fragment_ProductImages extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_product_images, container, false);
 
-        article_download = view.findViewById(R.id.article_download_icon);
         article_3d_view = view.findViewById(R.id.article_3dview_icon);
         article_augment = view.findViewById(R.id.article_augment_icon);
-        zip_downloaded = view.findViewById(R.id.download_text);
 
         article_images = getArguments().getString("article_images");
         article_name = getArguments().getString("article_name");
@@ -164,89 +157,15 @@ public class Fragment_ProductImages extends Fragment {
             }
         });
 
-        Article_3DS_ZipFileLocation = Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/Models/" + article_name + "/" + article_3ds;
-        Log.e(TAG, "ZipFileLocation--" + Article_3DS_ZipFileLocation);
-        Article_3DS_ExtractLocation = Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/Models/" + article_name + "/";
-        Log.e(TAG, "ExtractLocation--" + Article_3DS_ExtractLocation);
-        Article_3DS_FileLocation = Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/Models/" + article_name + "/article_view.3ds";
-        Log.e(TAG, "Object3DFileLocation--" + Article_3DS_FileLocation);
-
-        note = view.findViewById(R.id.download_note);
-
-        article_3ds_zip_file = new File(Article_3DS_ZipFileLocation);
-        article_3ds_file = new File(Article_3DS_FileLocation);
-
-        zip_3ds_downloaded = false;
-
-        article_3d_view.setEnabled(false);
-        if (article_3ds_file.exists()) {
-            article_3d_view.setEnabled(true);
-            article_download.setVisibility(View.GONE);
-            note.setVisibility(View.GONE);
-            zip_3ds_downloaded = true;
-            zip_downloaded.setText("File Downloaded");
-            zip_downloaded.setTextColor(Color.BLUE);
-        }
-
-        article_download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog progressDialog = new ProgressDialog(getContext(), R.style.AppTheme_Dark_Dialog);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Downloading Article, Just for once....");
-                progressDialog.setTitle("Article Downloading");
-                progressDialog.show();
-
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                try {
-                                    addModelFolder();
-                                    EXTENDED_URL_3DS = FILE_URL_3DS + article_3ds;
-                                    Log.e(TAG, "URL ---------- " + EXTENDED_URL_3DS);
-                                    new DownloadManager_3DS(EXTENDED_URL_3DS, article_name, article_3ds);
-
-                                    if (article_3ds_zip_file.exists()) {
-                                        new UnzipUtil(Article_3DS_ZipFileLocation, Article_3DS_ExtractLocation);
-                                    } else {
-                                        Toast.makeText(getContext(), "Cannot locate Zipper, Try to download again", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    zip_3ds_downloaded = true;
-
-                                    Log.e(TAG, "Zip Downloaded ---------- " + true);
-                                    progressDialog.dismiss();
-                                    article_download.setVisibility(View.GONE);
-                                    article_3d_view.setEnabled(true);
-                                    note.setVisibility(View.GONE);
-                                    zip_downloaded.setText("File Downloaded");
-                                    zip_downloaded.setTextColor(Color.BLUE);
-
-                                } catch (IOException e) {
-                                    article_download.setVisibility(View.VISIBLE);
-                                    article_3d_view.setEnabled(false);
-                                    zip_3ds_downloaded = false;
-                                    Log.e(TAG, "Zip Not Downloaded ---------- " + false);
-                                    e.printStackTrace();
-                                    note.setVisibility(View.VISIBLE);
-                                    zip_downloaded.setText("Download !");
-
-                                }
-                            }
-                        }, 6000);
-            }
-        });
 
         article_3d_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (zip_3ds_downloaded) {
-
-                    Bundle b3 = new Bundle();
-                    b3.putString("article_name", article_name);
-                    Intent _3d_intent = new Intent(getContext(), Article3dViewActivity.class).putExtras(b3);
-                    startActivity(_3d_intent);
-                }
+                Bundle b3 = new Bundle();
+                b3.putString("article_name", article_name);
+                b3.putString("article_3ds_file_name", article_3ds);
+                Intent _3d_intent = new Intent(getContext(), Article3dViewActivity.class).putExtras(b3);
+                startActivity(_3d_intent);
             }
         });
 
@@ -292,24 +211,19 @@ public class Fragment_ProductImages extends Fragment {
         Log.e(TAG, " " + prefManager.ProductPageActivityScreenLaunch());
         final Display display = getActivity().getWindowManager().getDefaultDisplay();
         final TapTargetSequence sequence = new TapTargetSequence(getActivity()).targets(
-                TapTarget.forView(view.findViewById(R.id.article_download_icon), "DOWNLOAD", "Click Here before you click the 3d & Augment ")
-                        .targetRadius(30)
-                        .textColor(R.color.white)
-                        .outerCircleColor(R.color.primary)
-                        .id(1),
                 TapTarget.forView(view.findViewById(R.id.article_augment_icon), "AUGMENT", "Click Here to Augment the Object")
                         .cancelable(false)
                         .textColor(R.color.white)
 
                         .targetRadius(30)
                         .outerCircleColor(R.color.primary)
-                        .id(2),
+                        .id(1),
                 TapTarget.forView(view.findViewById(R.id.article_3dview_icon), "3D", "Click Here see the object in 3d View")
                         .cancelable(false)
                         .targetRadius(30)
                         .textColor(R.color.white)
                         .outerCircleColor(R.color.primary)
-                        .id(3)
+                        .id(2)
         ).listener(new TapTargetSequence.Listener() {
             @Override
             public void onSequenceFinish() {
@@ -326,21 +240,6 @@ public class Fragment_ProductImages extends Fragment {
         sequence.start();
     }
 
-    /*creation of directory in external storage */
-    private void addModelFolder() throws IOException {
-        String state = Environment.getExternalStorageState();
-
-        File folder = null;
-        if (state.contains(Environment.MEDIA_MOUNTED)) {
-            Log.e(TAG, "Article Name--" + article_name);
-            folder = new File(Environment.getExternalStorageDirectory() + "/L_CATALOG_MOD/Models/" + article_name);
-        }
-        assert folder != null;
-        if (!folder.exists()) {
-            boolean wasSuccessful = folder.mkdirs();
-            Log.e(TAG, "Model Directory is Created --- '" + wasSuccessful + "' Thank You !!");
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

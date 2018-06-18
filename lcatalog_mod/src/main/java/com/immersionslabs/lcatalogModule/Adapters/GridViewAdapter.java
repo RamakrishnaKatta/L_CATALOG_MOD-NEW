@@ -40,6 +40,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     private ArrayList<String> item_images;
     private ArrayList<String> item_dimensions;
     private ArrayList<String> item_3ds;
+    private ArrayList<String> item_3ds_file;
 
     public GridViewAdapter(Activity activity,
                            ArrayList<String> item_ids,
@@ -50,7 +51,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                            ArrayList<String> item_vendors,
                            ArrayList<String> item_images,
                            ArrayList<String> item_dimensions,
-                           ArrayList<String> item_3ds) {
+                           ArrayList<String> item_3ds,
+                           ArrayList<String> item_3ds_file) {
 
         this.item_ids = item_ids;
         this.item_names = item_names;
@@ -61,6 +63,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         this.item_images = item_images;
         this.item_dimensions = item_dimensions;
         this.item_3ds = item_3ds;
+        this.item_3ds_file = item_3ds_file;
 
 
         Log.e(TAG, "ids----" + item_ids);
@@ -72,6 +75,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         Log.e(TAG, "images----" + item_images);
         Log.e(TAG, "Dimensions----" + item_dimensions);
         Log.e(TAG, "3ds ---- " + item_3ds);
+        Log.e(TAG, "3dsfile ---- " + item_3ds_file);
+
 
         this.activity = activity;
     }
@@ -116,9 +121,9 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         try {
 
             JSONArray images_json = new JSONArray(get_image);
-                if (images_json.length() > 0) {
-                    im1 = images_json.getString(0);
-                    Log.e(TAG, "image1 >>>>" + im1);
+            if (images_json.length() > 0) {
+                im1 = images_json.getString(0);
+                Log.e(TAG, "image1 >>>>" + im1);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -144,28 +149,31 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         viewHolder.grid_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    context[0] = v.getContext();
 
-                context[0] = v.getContext();
+                    Intent intent = new Intent(context[0], ProductPageActivity.class);
+                    Bundle b = new Bundle();
 
-                Intent intent = new Intent(context[0], ProductPageActivity.class);
-                Bundle b = new Bundle();
+                    b.putString("article_id", item_ids.get(position));
+                    b.putString("article_title", item_names.get(position));
+                    b.putString("article_description", item_descriptions.get(position));
+                    b.putString("article_price", item_prices.get(position));
+                    b.putString("article_discount", item_discounts.get(position));
+                    b.putString("article_vendor", item_vendors.get(position));
+                    b.putString("article_dimensions", item_dimensions.get(position));
+                    b.putString("article_3ds", item_3ds.get(position));
 
-                b.putString("article_id", item_ids.get(position));
-                b.putString("article_title", item_names.get(position));
-                b.putString("article_description", item_descriptions.get(position));
-                b.putString("article_price", item_prices.get(position));
-                b.putString("article_discount", item_discounts.get(position));
-                b.putString("article_vendor", item_vendors.get(position));
-                b.putString("article_dimensions", item_dimensions.get(position));
-                b.putString("article_3ds", item_3ds.get(position));
+                    b.putString("article_images", item_images.get(position));
+                    b.putString("article_position", String.valueOf(position));
+                    b.putString("article_3dsfile", item_3ds_file.get(position));
 
-                b.putString("article_images", item_images.get(position));
-                b.putString("article_position", String.valueOf(position));
+                    intent.putExtras(b);
 
-                intent.putExtras(b);
-
-                context[0].startActivity(intent);
-
+                    context[0].startActivity(intent);
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
 //                Toast.makeText(activity, "You clicked on Article: " + position, Toast.LENGTH_SHORT).show();
             }
         });
