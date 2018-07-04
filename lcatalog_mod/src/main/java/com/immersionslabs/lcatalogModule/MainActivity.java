@@ -1,5 +1,7 @@
 package com.immersionslabs.lcatalogModule;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     private static final int MY_PERMISSIONS_REQUEST = 10;
-    Button click, Augment, about_us, faq,Projects;
+    Button click, Augment, about_us, faq, Projects, video;
     boolean success = true;
 
     @Override
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this,ProjectActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProjectActivity.class);
                 startActivity(intent);
 
             }
@@ -83,6 +85,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        video = findViewById(R.id.video);
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent("org.artoolkit.ar.samples.ARMovie.ARMovieActivity");
+//                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_MAIN, null);
+//                intent.setClassName("org.artoolkit.ar.samples.ARMovie","ARMovieActivity");
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                final ComponentName cn = new ComponentName("org.artoolkit.ar.samples.ARMovie", "ARMovieActivity");
+                intent.setComponent(cn);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(MainActivity.this, "Activity Not Found", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onClick: " + e.getMessage());
+                }
+
+            }
+        });
+
 
         faq = findViewById(R.id.faq);
         faq.setOnClickListener(new View.OnClickListener() {

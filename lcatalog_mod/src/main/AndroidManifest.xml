@@ -16,6 +16,7 @@
     <uses-feature
         android:name="android.hardware.camera.flash"
         android:required="false" />
+    <uses-feature android:glEsVersion="0x00010100" />
 
     <supports-screens
         android:anyDensity="true"
