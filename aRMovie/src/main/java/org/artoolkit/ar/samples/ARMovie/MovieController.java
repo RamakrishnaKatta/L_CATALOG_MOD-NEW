@@ -63,181 +63,184 @@ import android.util.Log;
 import android.view.Surface;
 
 /**
-   A class which provides a convenient controller for a media player tied
-   to an OpenGL surface texture.
- 
-   @author Philip Lamb
-   @copyright Daqri LLC.
+ * A class which provides a convenient controller for a media player tied
+ * to an OpenGL surface texture.
+ *
+ * @author Philip Lamb
+ * @copyright Daqri LLC.
  */
 public class MovieController implements SurfaceTexture.OnFrameAvailableListener,
-										MediaPlayer.OnPreparedListener,
-										MediaPlayer.OnVideoSizeChangedListener,
-										MediaPlayer.OnInfoListener,
-										MediaPlayer.OnErrorListener,
-										MediaPlayer.OnCompletionListener {
-	
-	private MediaPlayer mMediaPlayer = null;
-	private boolean mMediaPlayerIsPrepped = false;
-	private int     mTextureNeedsUpdatingCount = 0;
-	private int     mTextureWasUpdatedCount = 0;
-	private SurfaceTexture mSurfaceTexture = null;
-	private Surface mSurface = null;
-	
-	// Playback prefs.
-	public boolean mStartPaused = false;
-	public boolean mLoop = false;
-	public boolean mMute = false;
-	
-	// OpenGL bits.
-	public int mGLTextureID = 0;
-	public float[] mGLTextureMtx = new float[16];
-	public int mMovieWidth = 0;
-	public int mMovieHeight = 0;
-	private boolean mGLInited = false;
-	
-	private static final String TAG = "MovieController";
+        MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnVideoSizeChangedListener,
+        MediaPlayer.OnInfoListener,
+        MediaPlayer.OnErrorListener,
+        MediaPlayer.OnCompletionListener {
 
-	/**
-	 * Create a MovieController instance.
-	 * The routine nativeMovieInit will be called with a reference to this instance.
-	 * In this constructor, a MediaPlayer will be instantiated, and its data source set.
-	 * Note that the data source will not actually begin to be read until onResume() is called.
-	 * @param moviePath The path, in the native file system, where the movie media is stored.
-	 */
-	public MovieController(String moviePath) throws IOException
-	{
-		Log.i(TAG, "MovieController()");
-		// Create the MediaPlayer, set its options, and prep it.
-		mMediaPlayer = new MediaPlayer();
-		mMediaPlayer.setOnErrorListener(this);
-		mMediaPlayer.setOnInfoListener(this);
-		mMediaPlayer.setOnCompletionListener(this);
-		mMediaPlayer.setOnVideoSizeChangedListener(this);
-		try {
-			mMediaPlayer.setDataSource(moviePath);
-			ARMovieActivity.nativeMovieInit(this, new WeakReference<MovieController>(this)); // Pass a reference to this instance to the native side.
-		} catch (IOException ioe) {
-			Log.e(TAG, "Cannot open movie file. " + ioe.toString());
-			mMediaPlayer.release();
-			mMediaPlayer = null;
-			throw ioe;
-		}		
-	}
-	
-	/**
-	 * Create OpenGL structures required for display of the 
-	 * movie content via a SurfaceTexture, and get movie ready to play.
-	 * @param sv GLSurfaceView managing the OpenGL thread associated
-	 * with this MovieController. 
-	 * @return true if the movie was inited without error, false otherwise.
-	 */
-	public boolean onResume(GLSurfaceView sv) {
-		Log.i(TAG, "onResume()");
-		
-		if (mMediaPlayer == null) {
-			Log.e(TAG, "onResume() called while no MediaPlayer is active.");
-			return false;
-		}
-		if (sv == null) {
-			Log.e(TAG, "onResume() called with null GLSurfaceView.");
-			return false;
-		}
-		
-		// Create a task to run on the OpenGL thread. We need to wait for this task to complete
-		// before continuing, so we use a CountDownLatch as a signalling mechanism.
-		
-		class InitGL implements Runnable {
-			
-			private final CountDownLatch doneSignal;
-			InitGL(CountDownLatch doneSignal) {
-				this.doneSignal = doneSignal;
-			}
+    private MediaPlayer mMediaPlayer = null;
+    private boolean mMediaPlayerIsPrepped = false;
+    private int mTextureNeedsUpdatingCount = 0;
+    private int mTextureWasUpdatedCount = 0;
+    private SurfaceTexture mSurfaceTexture = null;
+    private Surface mSurface = null;
 
-			// This is the method which will be called on the OpenGL thread.
-			@SuppressLint("InlinedApi") // Disable warning about missing GL_TEXTURE_EXTERNAL_OES token in API level 14. Although not defined in the SDK until API level 15, it was supported in API level 14.
-			public void run() {
-				// Generate one texture name and bind it as an external texture.
-				// Set required texture parameters. No mipmaps. Clamp to edge is required.
-				Log.i(TAG, "GLSurfaceView is running InitGL");
-				int[] textures = new int[1];
-				GLES11.glGenTextures(1, textures, 0);
-				mGLTextureID = textures[0];
-				GLES11.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mGLTextureID);		
-				GLES11.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_MIN_FILTER, GLES11.GL_NEAREST);        
-				GLES11.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_MAG_FILTER, GLES11.GL_LINEAR);
-				GLES11.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_WRAP_S, GLES11.GL_CLAMP_TO_EDGE);
-				GLES11.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_WRAP_T, GLES11.GL_CLAMP_TO_EDGE);
-				doneSignal.countDown();
-			}
-			
-		}
-		
-		CountDownLatch initedGLSignal = new CountDownLatch(1);
-		sv.queueEvent(new InitGL(initedGLSignal));
-		try {
-			initedGLSignal.await();
-			
-			// Now, tell the MediaPlayer to render into it.
-			mSurfaceTexture = new SurfaceTexture(mGLTextureID);
-			mSurfaceTexture.setOnFrameAvailableListener(this);
-			mSurface = new Surface(mSurfaceTexture);
-			mMediaPlayer.setSurface(mSurface);
+    // Playback prefs.
+    public boolean mStartPaused = false;
+    public boolean mLoop = false;
+    public boolean mMute = false;
 
-			mGLInited = true;
+    // OpenGL bits.
+    public int mGLTextureID = 0;
+    public float[] mGLTextureMtx = new float[16];
+    public int mMovieWidth = 0;
+    public int mMovieHeight = 0;
+    private boolean mGLInited = false;
 
-		} catch (InterruptedException ex) {
-			return false;
-		}
-		
-		// If we were going to do async preparation, this is what we'd do.
-		//mMediaPlayer.setOnPreparedListener(this);
-		//mMediaPlayer.prepareAsync();
+    private static final String TAG = "MovieController";
 
-		if (!mMediaPlayerIsPrepped) {
-			try {
-				mMediaPlayer.prepare();
-			} catch (IOException ioe) {
-				Log.e(TAG, "Cannot open movie file: " + ioe.toString());
-				finish();
-				return false;
-			}
-		}
-		this.onPrepared(mMediaPlayer);
-		
-		return true;
-	}
- 
-	@Override
-	public void onPrepared (MediaPlayer mp) {
-		Log.i(TAG, "onPrepared()");
-		if (!mMediaPlayerIsPrepped) {
-			if (mLoop) mp.setLooping(true);
-			if (mMute) mp.setVolume(0.0f, 0.0f);
-			mMovieWidth = mp.getVideoWidth();
-			mMovieHeight = mp.getVideoHeight();
-			mMediaPlayerIsPrepped = true;
-			Log.i(TAG, "set isPrepped, with looping=" + mLoop + ", mute=" + mMute + ", size=" + mMovieWidth + "x" + mMovieHeight + ".");
-		}
-		if (!mStartPaused) play();
-	}
-	
-	// SurfaceTexture.OnFrameAvailableListener method.
-	// Called on "arbitrary" thread. Actually, called on same thread that initialised
-	// the SurfaceTexture, if it had a looper. Otherwise, called on main UI thread, if
-	// it had a looper. Otherwise, not called at all.
-	@Override
-	public void onFrameAvailable (SurfaceTexture surfaceTexture) {
-		//Log.i(TAG, "onFrameAvailable");
-		
-		// onFrameAvailable checks out a buffer, so we need to keep track of how many we need
-		// to check back in (with calls to updateTexImage()).
-		mTextureNeedsUpdatingCount++;
-		// Handle int wrap-around.
-		if (mTextureNeedsUpdatingCount == Integer.MAX_VALUE) {
-			mTextureNeedsUpdatingCount = (mTextureNeedsUpdatingCount - mTextureWasUpdatedCount);
-			mTextureWasUpdatedCount = 0;
-		}
-	}
+    /**
+     * Create a MovieController instance.
+     * The routine nativeMovieInit will be called with a reference to this instance.
+     * In this constructor, a MediaPlayer will be instantiated, and its data source set.
+     * Note that the data source will not actually begin to be read until onResume() is called.
+     *
+     * @param moviePath The path, in the native file system, where the movie media is stored.
+     */
+    public MovieController(String moviePath) throws IOException {
+        Log.i(TAG, "MovieController()");
+        // Create the MediaPlayer, set its options, and prep it.
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnErrorListener(this);
+        mMediaPlayer.setOnInfoListener(this);
+        mMediaPlayer.setOnCompletionListener(this);
+        mMediaPlayer.setOnVideoSizeChangedListener(this);
+        try {
+            mMediaPlayer.setDataSource(moviePath);
+            ARMovieActivity.nativeMovieInit(this, new WeakReference<MovieController>(this)); // Pass a reference to this instance to the native side.
+        } catch (IOException ioe) {
+            Log.e(TAG, "Cannot open movie file. " + ioe.toString());
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+            throw ioe;
+        }
+    }
+
+    /**
+     * Create OpenGL structures required for display of the
+     * movie content via a SurfaceTexture, and get movie ready to play.
+     *
+     * @param sv GLSurfaceView managing the OpenGL thread associated
+     *           with this MovieController.
+     * @return true if the movie was inited without error, false otherwise.
+     */
+    public boolean onResume(GLSurfaceView sv) {
+        Log.i(TAG, "onResume()");
+
+        if (mMediaPlayer == null) {
+            Log.e(TAG, "onResume() called while no MediaPlayer is active.");
+            return false;
+        }
+        if (sv == null) {
+            Log.e(TAG, "onResume() called with null GLSurfaceView.");
+            return false;
+        }
+
+        // Create a task to run on the OpenGL thread. We need to wait for this task to complete
+        // before continuing, so we use a CountDownLatch as a signalling mechanism.
+
+        class InitGL implements Runnable {
+
+            private final CountDownLatch doneSignal;
+
+            InitGL(CountDownLatch doneSignal) {
+                this.doneSignal = doneSignal;
+            }
+
+            // This is the method which will be called on the OpenGL thread.
+            @SuppressLint("InlinedApi")
+            // Disable warning about missing GL_TEXTURE_EXTERNAL_OES token in API level 14. Although not defined in the SDK until API level 15, it was supported in API level 14.
+            public void run() {
+                // Generate one texture name and bind it as an external texture.
+                // Set required texture parameters. No mipmaps. Clamp to edge is required.
+                Log.i(TAG, "GLSurfaceView is running InitGL");
+                int[] textures = new int[1];
+                GLES11.glGenTextures(1, textures, 0);
+                mGLTextureID = textures[0];
+                GLES11.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mGLTextureID);
+                GLES11.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_MIN_FILTER, GLES11.GL_NEAREST);
+                GLES11.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_MAG_FILTER, GLES11.GL_LINEAR);
+                GLES11.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_WRAP_S, GLES11.GL_CLAMP_TO_EDGE);
+                GLES11.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES11.GL_TEXTURE_WRAP_T, GLES11.GL_CLAMP_TO_EDGE);
+                doneSignal.countDown();
+            }
+
+        }
+
+        CountDownLatch initedGLSignal = new CountDownLatch(1);
+        sv.queueEvent(new InitGL(initedGLSignal));
+        try {
+            initedGLSignal.await();
+
+            // Now, tell the MediaPlayer to render into it.
+            mSurfaceTexture = new SurfaceTexture(mGLTextureID);
+            mSurfaceTexture.setOnFrameAvailableListener(this);
+            mSurface = new Surface(mSurfaceTexture);
+            mMediaPlayer.setSurface(mSurface);
+
+            mGLInited = true;
+
+        } catch (InterruptedException ex) {
+            return false;
+        }
+
+        // If we were going to do async preparation, this is what we'd do.
+        //mMediaPlayer.setOnPreparedListener(this);
+        //mMediaPlayer.prepareAsync();
+
+        if (!mMediaPlayerIsPrepped) {
+            try {
+                mMediaPlayer.prepare();
+            } catch (IOException ioe) {
+                Log.e(TAG, "Cannot open movie file: " + ioe.toString());
+                finish();
+                return false;
+            }
+        }
+        this.onPrepared(mMediaPlayer);
+
+        return true;
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        Log.i(TAG, "onPrepared()");
+        if (!mMediaPlayerIsPrepped) {
+            if (mLoop) mp.setLooping(true);
+            if (mMute) mp.setVolume(0.0f, 0.0f);
+            mMovieWidth = mp.getVideoWidth();
+            mMovieHeight = mp.getVideoHeight();
+            mMediaPlayerIsPrepped = true;
+            Log.i(TAG, "set isPrepped, with looping=" + mLoop + ", mute=" + mMute + ", size=" + mMovieWidth + "x" + mMovieHeight + ".");
+        }
+        if (!mStartPaused) play();
+    }
+
+    // SurfaceTexture.OnFrameAvailableListener method.
+    // Called on "arbitrary" thread. Actually, called on same thread that initialised
+    // the SurfaceTexture, if it had a looper. Otherwise, called on activity_arMovie UI thread, if
+    // it had a looper. Otherwise, not called at all.
+    @Override
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        //Log.i(TAG, "onFrameAvailable");
+
+        // onFrameAvailable checks out a buffer, so we need to keep track of how many we need
+        // to check back in (with calls to updateTexImage()).
+        mTextureNeedsUpdatingCount++;
+        // Handle int wrap-around.
+        if (mTextureNeedsUpdatingCount == Integer.MAX_VALUE) {
+            mTextureNeedsUpdatingCount = (mTextureNeedsUpdatingCount - mTextureWasUpdatedCount);
+            mTextureWasUpdatedCount = 0;
+        }
+    }
 
 	/*
 	   Handy state reference:
@@ -251,181 +254,214 @@ public class MovieController implements SurfaceTexture.OnFrameAvailableListener,
 	   MEDIA_PLAYER_STOPPED            = 64
 	   MEDIA_PLAYER_PLAYBACK_COMPLETE  = 128
 	 */
-	
-	@Override
-	public boolean onError(MediaPlayer mp, int what, int extra) {
-		switch (what) {
-			case MediaPlayer.MEDIA_ERROR_UNKNOWN: Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_UNKNOWN."); break;
-			case MediaPlayer.MEDIA_ERROR_SERVER_DIED: Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_SERVER_DIED."); break;
-			case MediaPlayer.MEDIA_ERROR_IO:  Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_IO."); break; // API 17.
-			case MediaPlayer.MEDIA_ERROR_MALFORMED: Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_MALFORMED."); break;
-			case MediaPlayer.MEDIA_ERROR_UNSUPPORTED: Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_UNSUPPORTED."); break;
-			case MediaPlayer.MEDIA_ERROR_TIMED_OUT: Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_TIMED_OUT."); break;
-			default: Log.e(TAG, "MediaPlayer returned error " + what + ", sub-error 0x" + Integer.toHexString(extra) + "."); break;
-		}
-		
-		return false;
-	}
 
-	@Override
-	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		switch (what) {
-			case MediaPlayer.MEDIA_INFO_UNKNOWN: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_UNKNOWN."); break;
-			case MediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_VIDEO_TRACK_LAGGING."); break;
-			case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:  Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_VIDEO_RENDERING_START."); break; // API 17.
-			case MediaPlayer.MEDIA_INFO_BUFFERING_START: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BUFFERING_START."); break;
-			case MediaPlayer.MEDIA_INFO_BUFFERING_END: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BUFFERING_END."); break;
-			case MediaPlayer.MEDIA_INFO_BAD_INTERLEAVING: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BAD_INTERLEAVING."); break;
-			case MediaPlayer.MEDIA_INFO_NOT_SEEKABLE: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_NOT_SEEKABLE."); break;
-			case MediaPlayer.MEDIA_INFO_METADATA_UPDATE: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_METADATA_UPDATE."); break;
-			//case MediaPlayer.MEDIA_INFO_UNSUPPORTED_SUBTITLE: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_UNSUPPORTED_SUBTITLE."); break; // API 19.
-			//case MediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_SUBTITLE_TIMED_OUT."); break; // API 19.
-			default: Log.e(TAG, "MediaPlayer returned info " + what + ", sub-info 0x" + Integer.toHexString(extra) + "."); break;
-		}
-		return false;
-	}
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        switch (what) {
+            case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_UNKNOWN.");
+                break;
+            case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_SERVER_DIED.");
+                break;
+            case MediaPlayer.MEDIA_ERROR_IO:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_IO.");
+                break; // API 17.
+            case MediaPlayer.MEDIA_ERROR_MALFORMED:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_MALFORMED.");
+                break;
+            case MediaPlayer.MEDIA_ERROR_UNSUPPORTED:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_UNSUPPORTED.");
+                break;
+            case MediaPlayer.MEDIA_ERROR_TIMED_OUT:
+                Log.e(TAG, "MediaPlayer returned error MEDIA_ERROR_TIMED_OUT.");
+                break;
+            default:
+                Log.e(TAG, "MediaPlayer returned error " + what + ", sub-error 0x" + Integer.toHexString(extra) + ".");
+                break;
+        }
 
-	@Override
-	public void onCompletion(MediaPlayer mp) {
-		Log.i(TAG, "onCompletion()");
-		// This only gets called if looping is disabled.
-		// If desired, you could implement some callback here to perform
-		// some action when playback finishes. E.g. call play() to start again
-		// from the beginning.
-	}
+        return false;
+    }
 
-	@Override
-	public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-		Log.i(TAG, "Video size changed to " + width + "x" + height + ".");
-		mMovieWidth = width;
-		mMovieHeight = height;
-	}
+    @Override
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        switch (what) {
+            case MediaPlayer.MEDIA_INFO_UNKNOWN:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_UNKNOWN.");
+                break;
+            case MediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_VIDEO_TRACK_LAGGING.");
+                break;
+            case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_VIDEO_RENDERING_START.");
+                break; // API 17.
+            case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BUFFERING_START.");
+                break;
+            case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BUFFERING_END.");
+                break;
+            case MediaPlayer.MEDIA_INFO_BAD_INTERLEAVING:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_BAD_INTERLEAVING.");
+                break;
+            case MediaPlayer.MEDIA_INFO_NOT_SEEKABLE:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_NOT_SEEKABLE.");
+                break;
+            case MediaPlayer.MEDIA_INFO_METADATA_UPDATE:
+                Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_METADATA_UPDATE.");
+                break;
+            //case MediaPlayer.MEDIA_INFO_UNSUPPORTED_SUBTITLE: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_UNSUPPORTED_SUBTITLE."); break; // API 19.
+            //case MediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT: Log.e(TAG, "MediaPlayer returned info MEDIA_INFO_SUBTITLE_TIMED_OUT."); break; // API 19.
+            default:
+                Log.e(TAG, "MediaPlayer returned info " + what + ", sub-info 0x" + Integer.toHexString(extra) + ".");
+                break;
+        }
+        return false;
+    }
 
-	/** 
-	 * Free all OpenGL resources used by the movie.
-	 * @param sv GLSurfaceView managing the OpenGL thread associated
-	 * with this MovieController. If the GL context cannot be reached,
-	 * just pass NULL.
-	 */
-	public void onPause(GLSurfaceView sv) {
-		Log.i(TAG, "onPause()");
-		
-		mTextureNeedsUpdatingCount = 0;
-		mTextureWasUpdatedCount = 0;
-		if (mSurface != null) {
-			mSurface.release();
-			mSurface = null;
-		}
-		if (mSurfaceTexture != null) {
-			if (mMediaPlayer != null) mMediaPlayer.setSurface(null);
-			mSurfaceTexture.release();
-			mSurfaceTexture = null;
-		}
-		if (mGLTextureID != 0) {
-			if (sv != null) {
-				sv.queueEvent(new Runnable() {
-					public void run() {
-						int[] textures = new int[1];
-						textures[0] = mGLTextureID;
-						GLES11.glDeleteTextures(1, textures, 0);
-						mGLTextureID = 0;
-					}
-				});
-			}
-		}
-		mGLInited = false;
-	}
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        Log.i(TAG, "onCompletion()");
+        // This only gets called if looping is disabled.
+        // If desired, you could implement some callback here to perform
+        // some action when playback finishes. E.g. call play() to start again
+        // from the beginning.
+    }
 
-	public void finish() {
-		Log.i(TAG, "finish()");
-		if (mGLInited) onPause(null); 
-		if (mMediaPlayer != null) {
-			mMediaPlayer.reset();
-			mMediaPlayer.release();
-			mMediaPlayer = null;
-			mMediaPlayerIsPrepped = false;
-			ARMovieActivity.nativeMovieFinal(); // Clean up the reference to this instance held by the native side.
-		}
-	}
-	
-	@Override
-	protected void finalize() throws Throwable {
-		// Handle case where user forgot to call finish().
-		finish();
-		
-		super.finalize();
-	}
-	
-	// Controller methods.
-	
-	/**
-	 * If a new video frame is available, pushes it to the OpenGL texture.
-	 * May only be called while the OpenGL ES context that owns the texture
-	 * is current on the calling thread. It will implicitly bind its texture to the
-	 * GL_TEXTURE_EXTERNAL_OES texture target.
-	 * @return true is texture was updated, false if not.
-	 */
-	public boolean updateTexture() {
-		if (mTextureNeedsUpdatingCount > mTextureWasUpdatedCount) {
-			//Log.i(TAG, "updateTexture(): ran.");
-			while (mTextureNeedsUpdatingCount > mTextureWasUpdatedCount) {
-				mSurfaceTexture.updateTexImage();
-				mSurfaceTexture.getTransformMatrix(mGLTextureMtx); // Stash the matrix for use by the client.
-				mTextureWasUpdatedCount++;
-			}
-			return (true);
-		} else {
-			//Log.i(TAG, "updateTexture(): did nothing.");
-			return (false);
-		}
-	}
-	
-	// Playback UI control methods.
+    @Override
+    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+        Log.i(TAG, "Video size changed to " + width + "x" + height + ".");
+        mMovieWidth = width;
+        mMovieHeight = height;
+    }
 
-	public void play() {
-		Log.i(TAG, "play()");
-		if (mMediaPlayer == null || !mMediaPlayerIsPrepped) return;
-		mMediaPlayer.start();
-	}
-	
-	public boolean isPlaying() {
-		Log.i(TAG, "isPlaying");
-		if (mMediaPlayer == null || !mMediaPlayerIsPrepped) return false;
-		return mMediaPlayer.isPlaying();
-	}
-	
-	public void pause() {
-		Log.i(TAG, "pause");
-		if (mMediaPlayer == null || !mMediaPlayerIsPrepped) return; // we won't check mMediaPlayer.isPlaying().
-		mMediaPlayer.pause();
-	}
+    /**
+     * Free all OpenGL resources used by the movie.
+     *
+     * @param sv GLSurfaceView managing the OpenGL thread associated
+     *           with this MovieController. If the GL context cannot be reached,
+     *           just pass NULL.
+     */
+    public void onPause(GLSurfaceView sv) {
+        Log.i(TAG, "onPause()");
 
-	// These two methods are called from the native side.
-	
-	@SuppressWarnings({ "unused", "unchecked" })
-	private static void playFromNative(Object objectInstanceWeakReference)
-	{
-		Log.i(TAG, "playFromNative()");
-		MovieController mr = ((WeakReference<MovieController>)objectInstanceWeakReference).get();
-		if (mr == null) {
-			Log.i(TAG, "playFromNative() !REF");
-			return;
-		}
-		
-		mr.play();
-	}
-	
-	@SuppressWarnings({ "unused", "unchecked" })
-	private static void pauseFromNative(Object objectInstanceWeakReference)
-	{
-		Log.i(TAG, "pauseFromNative()");
-		MovieController mr = ((WeakReference<MovieController>)objectInstanceWeakReference).get();
-		if (mr == null) {
-			Log.i(TAG, "pauseFromNative() !REF");
-			return;
-		}
-		
-		mr.pause();
-	}
+        mTextureNeedsUpdatingCount = 0;
+        mTextureWasUpdatedCount = 0;
+        if (mSurface != null) {
+            mSurface.release();
+            mSurface = null;
+        }
+        if (mSurfaceTexture != null) {
+            if (mMediaPlayer != null) mMediaPlayer.setSurface(null);
+            mSurfaceTexture.release();
+            mSurfaceTexture = null;
+        }
+        if (mGLTextureID != 0) {
+            if (sv != null) {
+                sv.queueEvent(new Runnable() {
+                    public void run() {
+                        int[] textures = new int[1];
+                        textures[0] = mGLTextureID;
+                        GLES11.glDeleteTextures(1, textures, 0);
+                        mGLTextureID = 0;
+                    }
+                });
+            }
+        }
+        mGLInited = false;
+    }
+
+    public void finish() {
+        Log.i(TAG, "finish()");
+        if (mGLInited) onPause(null);
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+            mMediaPlayerIsPrepped = false;
+            ARMovieActivity.nativeMovieFinal(); // Clean up the reference to this instance held by the native side.
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        // Handle case where user forgot to call finish().
+        finish();
+
+        super.finalize();
+    }
+
+    // Controller methods.
+
+    /**
+     * If a new video frame is available, pushes it to the OpenGL texture.
+     * May only be called while the OpenGL ES context that owns the texture
+     * is current on the calling thread. It will implicitly bind its texture to the
+     * GL_TEXTURE_EXTERNAL_OES texture target.
+     *
+     * @return true is texture was updated, false if not.
+     */
+    public boolean updateTexture() {
+        if (mTextureNeedsUpdatingCount > mTextureWasUpdatedCount) {
+            //Log.i(TAG, "updateTexture(): ran.");
+            while (mTextureNeedsUpdatingCount > mTextureWasUpdatedCount) {
+                mSurfaceTexture.updateTexImage();
+                mSurfaceTexture.getTransformMatrix(mGLTextureMtx); // Stash the matrix for use by the client.
+                mTextureWasUpdatedCount++;
+            }
+            return (true);
+        } else {
+            //Log.i(TAG, "updateTexture(): did nothing.");
+            return (false);
+        }
+    }
+
+    // Playback UI control methods.
+
+    public void play() {
+        Log.i(TAG, "play()");
+        if (mMediaPlayer == null || !mMediaPlayerIsPrepped) return;
+        mMediaPlayer.start();
+    }
+
+    public boolean isPlaying() {
+        Log.i(TAG, "isPlaying");
+        if (mMediaPlayer == null || !mMediaPlayerIsPrepped) return false;
+        return mMediaPlayer.isPlaying();
+    }
+
+    public void pause() {
+        Log.i(TAG, "pause");
+        if (mMediaPlayer == null || !mMediaPlayerIsPrepped)
+            return; // we won't check mMediaPlayer.isPlaying().
+        mMediaPlayer.pause();
+    }
+
+    // These two methods are called from the native side.
+
+    @SuppressWarnings({"unused", "unchecked"})
+    private static void playFromNative(Object objectInstanceWeakReference) {
+        Log.i(TAG, "playFromNative()");
+        MovieController mr = ((WeakReference<MovieController>) objectInstanceWeakReference).get();
+        if (mr == null) {
+            Log.i(TAG, "playFromNative() !REF");
+            return;
+        }
+
+        mr.play();
+    }
+
+    @SuppressWarnings({"unused", "unchecked"})
+    private static void pauseFromNative(Object objectInstanceWeakReference) {
+        Log.i(TAG, "pauseFromNative()");
+        MovieController mr = ((WeakReference<MovieController>) objectInstanceWeakReference).get();
+        if (mr == null) {
+            Log.i(TAG, "pauseFromNative() !REF");
+            return;
+        }
+
+        mr.pause();
+    }
 
 }

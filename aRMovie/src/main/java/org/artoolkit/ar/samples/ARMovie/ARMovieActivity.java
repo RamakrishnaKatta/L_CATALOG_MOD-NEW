@@ -50,8 +50,7 @@
 package org.artoolkit.ar.samples.ARMovie;
 
 import java.io.IOException;
-import org.artoolkit.ar.base.camera.CameraPreferencesActivity;
-import org.artoolkit.ar.samples.ARMovie.R;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -85,21 +84,33 @@ public class ARMovieActivity extends Activity {
 
     // Lifecycle functions.
     public static native boolean nativeCreate(Context ctx);
+
     public static native boolean nativeStart();
+
     public static native boolean nativeStop();
+
     public static native boolean nativeDestroy();
+
     // Camera functions.
     public static native boolean nativeVideoInit(int w, int h, int cameraIndex, boolean cameraIsFrontFacing);
+
     public static native void nativeVideoFrame(byte[] image);
+
     // OpenGL functions.
     public static native void nativeSurfaceCreated();
+
     public static native void nativeSurfaceChanged(int w, int h);
+
     public static native void nativeDrawFrame(int movieWidth, int movieHeight, int movieTextureID, float[] movieTextureMtx);
+
     // Movie texture functions.
     public static native void nativeMovieInit(Object movieRendererThis, Object movieRendererWeakThis);
+
     public static native void nativeMovieFinal();
+
     // Other functions.
     public static native void nativeDisplayParametersChanged(int orientation, int w, int h, int dpi); // 0 = portrait, 1 = landscape (device rotated 90 degrees ccw), 2 = portrait upside down, 3 = landscape reverse (device rotated 90 degrees cw).
+
     public static native void nativeSetInternetState(int state);
 
     private GLSurfaceView glView;
@@ -110,7 +121,9 @@ public class ARMovieActivity extends Activity {
     private MovieController movieController;
     private boolean movieControllerPausedByUs;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,14 +143,13 @@ public class ARMovieActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // Force landscape-only.
         updateNativeDisplayParameters();
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_arMovie);
 
         ARMovieActivity.nativeCreate(this);
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         Log.i(TAG, "onStart()");
         super.onStart();
 
@@ -162,7 +174,7 @@ public class ARMovieActivity extends Activity {
         super.onResume();
 
         // Update info on whether we have an Internet connection.
-        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -227,16 +239,14 @@ public class ARMovieActivity extends Activity {
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         Log.i(TAG, "onDestroy()");
         super.onDestroy();
 
         ARMovieActivity.nativeDestroy();
     }
 
-    private void updateNativeDisplayParameters()
-    {
+    private void updateNativeDisplayParameters() {
         Display d = getWindowManager().getDefaultDisplay();
         int orientation = d.getRotation();
         DisplayMetrics dm = new DisplayMetrics();
@@ -248,8 +258,7 @@ public class ARMovieActivity extends Activity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // We won't use the orientation from the config, as it only tells us the layout type
@@ -260,8 +269,6 @@ public class ARMovieActivity extends Activity {
         //else /* orientation == Configuration.ORIENTATION_PORTRAIT) */ nativeOrientation = 1;
         updateNativeDisplayParameters();
     }
-
-
 
 
 }
