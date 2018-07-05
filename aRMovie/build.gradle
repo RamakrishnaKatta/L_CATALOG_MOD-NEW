@@ -44,12 +44,12 @@ model {
             main {
                 jni {
                     source {
-                        srcDirs = ['src/main/nop']
+                        srcDirs = ['src/activity_arMovie/nop']
                     }
                 }
                 jniLibs {
                     source {
-                        srcDirs = ['src/main/libs']
+                        srcDirs = ['src/activity_arMovie/libs']
                     }
                 }
             }
